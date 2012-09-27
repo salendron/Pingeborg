@@ -1,4 +1,7 @@
 <?php
+/*
+This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+*/
 
 //Add Tag Admin Page
 add_action("admin_menu", "register_pingeb_tag_admin");

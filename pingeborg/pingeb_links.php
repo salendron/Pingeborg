@@ -1,4 +1,7 @@
 <?php
+/*
+This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+*/
 
 //Redirects the user to a content page if a pingeborg url is called and counts it
 //Author: Bruno Hautzenberger

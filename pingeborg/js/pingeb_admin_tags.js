@@ -1,3 +1,7 @@
+/*
+This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+*/
+
 //Global Members
 var pages = [];
 var url_types = [];
