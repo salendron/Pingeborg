@@ -101,7 +101,8 @@ require_once(dirname(__FILE__) . '/pingeb_links.php');
 
 //statistics
 require_once(dirname(__FILE__) . '/pingeb_statistics.php');
-wp_enqueue_script( 'pingeb_heatmap', plugins_url('/js/heatmap.js', __FILE__) , array('jquery'), null, true );
+wp_enqueue_script( 'pingeb_heatmap', 'http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Clu6y2101nu%2Caw%3Do5-00b5g' , array('jquery'), null, true );
+wp_enqueue_script( 'pingeb_heatmap', plugins_url('/js/heatmap.js', __FILE__) , array('pingeb_heatmap'), null, true );
 
 
 //widgets

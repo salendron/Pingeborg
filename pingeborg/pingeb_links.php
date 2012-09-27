@@ -13,7 +13,8 @@ function pingeb_redirect(){
 
 	//check if it is an api call
 	if(startsWith($req,'api')){
-		echo pingeb_api($req);
+		header('content-type: application/json; charset=utf-8');
+		echo $_GET['callback'] . '('.pingeb_api($req).')'; ;
 		exit();
 	}
 	
