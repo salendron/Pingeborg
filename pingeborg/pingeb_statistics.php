@@ -14,7 +14,7 @@ function pingeb_heatmap( $atts ) {
 		'zoom' => '12'
 	), $atts ) );
 
-	echo "<script type='text/javascript' src='http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Clu6y2101nu%2Caw%3Do5-00b5g'></script></script>
+	return "<script type='text/javascript' src='http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Clu6y2101nu%2Caw%3Do5-00b5g'></script></script>
 		<script type='text/javascript'>
 		// THANKS PATRICK WIED FOR THE HEATMAP STUFF!!!
 		// http://www.patrick-wied.at/static/heatmapjs/
@@ -65,7 +65,7 @@ function pingeb_heatmap( $atts ) {
 			if(++idx<sr.length)t=setTimeout('doadddatapoint()',10);
 		}
 	</script>
-	<div id='mapdiv' style='width:{$w}px;height:{$h}px;'></div>
+	<div id='mapdiv' style='float:left;width:{$w}px;height:{$h}px;'></div>
 	";
 }
 add_shortcode( 'pingeb_heatmap', 'pingeb_heatmap' );
