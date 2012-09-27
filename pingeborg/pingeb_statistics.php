@@ -65,7 +65,7 @@ function pingeb_heatmap( $atts ) {
 			if(++idx<sr.length)t=setTimeout('doadddatapoint()',10);
 		}
 	</script>
-	<div id='mapdiv' style='float:left;width:{$w}px;height:{$h}px;'></div>
+	<div id='mapdiv' style='width:{$w}px;height:{$h}px;'></div>
 	";
 }
 add_shortcode( 'pingeb_heatmap', 'pingeb_heatmap' );
