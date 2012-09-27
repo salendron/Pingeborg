@@ -93,8 +93,14 @@ if(is_admin()){
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags_callbacks.php');
 }
 
+//api
+require_once(dirname(__FILE__) . '/pingeb_api.php');
+
 //redirect script
 require_once(dirname(__FILE__) . '/pingeb_links.php');
+
+//statistics
+require_once(dirname(__FILE__) . '/pingeb_statistics.php');
 
 //widgets
 require_once(dirname(__FILE__) . '/pingeb_widgets.php');

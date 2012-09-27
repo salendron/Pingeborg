@@ -1,0 +1,78 @@
+
+<html>
+	<head>
+		<title>Heatmap of Starbucks locations in the NTPois table</title>
+		<script type="text/javascript" src="http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Clu6y2101nu%2Caw%3Do5-00b5g"></script>
+		<script type="text/javascript" src="heatmap.js"></script>
+		<script type="text/javascript">
+			// THANKS PATRICK WIED FOR THE HEATMAP STUFF!!!
+			// http://www.patrick-wied.at/static/heatmapjs/
+			var m,mdiv,hm,hmdiv,lltp,idx,sr; // map, map div, heatmap, heatmap div, and llToPix
+			window.onload = function(){
+				mdiv=document.getElementById("mapdiv"); // save the map div for later
+				m=new MQA.TileMap({elt:mdiv,zoom:9,latLng:{lat:39.743943,lng:-105.020089}}); // make a map
+				MQA.withModule('largezoom','viewoptions',function(){ // add controls
+					m.addControl(new MQA.LargeZoom(),new MQA.MapCornerPlacement(MQA.MapCorner.TOP_LEFT,new MQA.Size(10,10)));
+					m.addControl(new MQA.ViewOptions(),new MQA.MapCornerPlacement(MQA.MapCorner.TOP_RIGHT));
+				});
+				getData(); // go get the data
+				MQA.EventManager.addListener(m,'moveend',getData); // and get it when the map moves
+				MQA.EventManager.addListener(m,'zoomend',getData); // and get it when the map zooms
+			}
+			
+			function getData(){ // search for Starbucks locations within the map bounds
+				if(m.getZoomLevel()>7){
+					var mb=m.getBounds(); // bounds of current map
+					MQA.IO.doJSONP("http://www.mapquestapi.com/search/v1/rectangle"+
+						"?key="+Key+
+						"&callback=rendersearch"+
+						"&maxMatches=1000"+
+						"&boundingBox="+mb.ul.lat+","+mb.ul.lng+","+mb.lr.lat+","+mb.lr.lng+
+						"&hostedData=MQA.NTPois,N='Starbucks',");
+						alert("http://www.mapquestapi.com/search/v1/rectangle"+
+						"?key="+Key+
+						"&callback=rendersearch"+
+						"&maxMatches=1000"+
+						"&boundingBox="+mb.ul.lat+","+mb.ul.lng+","+mb.lr.lat+","+mb.lr.lng+
+						"&hostedData=MQA.NTPois,N='Starbucks',");
+				}else{ // or not
+					if(hmdiv)hmdiv.innerHTML="";
+					alert("Zoom in for better details.");
+				}
+			};
+			function rendersearch(data){
+				sr=data;
+				idx=0;
+				if(hmdiv)hmdiv.innerHTML=""; // create div for heatmap
+				else hmdiv=document.createElement("div");
+				hmdiv.style.position="absolute";
+				hmdiv.style.height=mdiv.style.height;
+				hmdiv.style.width=mdiv.style.width;
+				hmdiv.style.left=(m.getDragOffset().x)+"px"; // make sure it gets put in the right place
+				hmdiv.style.top=(m.getDragOffset().y)+"px";
+				if(MQA.browser.name=="msie")hmdiv.style.filter ="alpha(opacity=75)";
+				else hmdiv.style.opacity="0.75";
+				mdiv.childNodes[0].childNodes[0].childNodes[5].appendChild(hmdiv); // add to map  wow that's ugly code
+				if(data.info.statuscode=="0"&&data.searchResults.length>0){
+					hm=h337.create({"element":hmdiv,"radius":25-m.getZoomLevel(),"visible":true});
+					var hmd={max:5,data:[]}
+					// animate from closest locations to farthest
+					doadddatapoint(0,data);
+					// just put them all on the map and quit messing around
+//					for(x in data.searchResults){
+//						lltp=m.llToPix(new MQA.LatLng(data.searchResults[x].shapePoints[0],data.searchResults[x].shapePoints[1]));
+//						hm.store.addDataPoint(lltp.x,lltp.y);
+//					}
+				}
+			}
+			function doadddatapoint(){
+				lltp=m.llToPix(new MQA.LatLng(sr.searchResults[idx].shapePoints[0],sr.searchResults[idx].shapePoints[1]));
+				hm.store.addDataPoint(lltp.x,lltp.y);
+				if(++idx<sr.searchResults.length)t=setTimeout("doadddatapoint()",10);
+			}
+		</script>
+	</head>
+	<body style="margin:0px;padding:0px;">
+		<div id="mapdiv" style="width:600px;height:400px;"></div>
+	</body>
+</html>
