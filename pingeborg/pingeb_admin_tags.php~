@@ -1,0 +1,140 @@
+<?php
+
+//Add Tag Admin Page
+add_action("admin_menu", "register_pingeb_tag_admin");
+
+function register_pingeb_tag_admin() {
+   add_menu_page("Pingeborg Tag Admin", "Pingeborg Tags", "add_users", "pingeb_tag_admin", "pingeb_tag_admin",plugins_url("pingeborg/img/icon.png")); 
+}
+
+//Show Admin Page
+function pingeb_tag_admin(){
+	wp_enqueue_script( 'pingeb_admin_tags', plugins_url('/js/pingeb_admin_tags.js', __FILE__) , array('jquery'), null, true );
+
+	//Page Header   
+	?> 
+	<div id="pingeb-admin-box" style="min-height:200px;">
+		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="float:left;margin-right:5px;margin-bottom:5px;">
+		<h1 class="pingeb_headline">Pingeb.org Tags</h1>
+		<p><b>About Pingeb.org</b>&nbsp;Project Ingeborg is a project created by Georg Holzer and Bruno Hautzenberger, which aims to bring free digital content to public spaces like bus stops, cafes, shops and so on. The content is distributed using stickers (tags) with QR codes and NFC tags on it.</p>
+		<p><b>What you need and how it works</b>&nbsp;Before you start you have to install <a href="http://www.mapsmarker.com/" target="_blank">Leaflet Maps Marker</a> by <a href="http://www.harm.co.at/" target="_blank">Robert Harm</a>. This plugin allows you to create markers. These markers represent your tags and will be shown here in this list bellow. After you have created your markers you can start assigning urls to them.
+	<p><b>That's it?</b>&nbsp;Yes! If you have assigned all urls and pages to your tags, your system is ready to be used. To inform your users about what's going on, this plugin also contains a widget which shows a download counter and several visual statistics about the usage of your system. These statistics can be included to your pages using shortcode. A full list of all shortcodes can be found here.</p>
+	</div>
+	<?php 
+	//END Page Header
+
+	//Batch Actions
+	?> 
+	<div id="pingeb-admin-box">
+		<h2 class="pingeb_headline">Batch Actions</h2>
+		<p><i>Batch Actions will affect all currently visible Tags. Use filters to select tags to apply batch changes.</i></p> 
+		<p>
+			<select id="pingeb_batch_tag_page" size="1">
+				<option value="-1">Select a Page</option>
+			</select>&nbsp;
+			<input onclick="pingeb_batch_assign_page()" type="button" id="pingeb_batch_assign_page" value="assign page">
+			&nbsp;|&nbsp;
+			<input type="number" id="pingeb_batch_tag_radius" size="3" min="20" max="250" value="20">
+			<input onclick="pingeb_batch_assign_radius()" type="button" id="pingeb_batch_assign_radius" value="assign geofence radius">
+		</p>
+	</div>
+	<?php 
+	//END Batch Actions
+
+	//Tag filter
+	?> 
+	<div id="pingeb-admin-box">
+		<h2 class="pingeb_headline">Filter</h2>
+		<p><i>Filters affect this list as well as batch actions and "export to printable list".</i></p> 
+		<p>
+			Layer:
+			<select id="pingeb_filter_layer" size="1">
+				<option value="-1">all layers</option>
+			</select>&nbsp;
+
+			Marker Name:
+			<input type="text" size="25"  id="pingeb_filter_marker_name">&nbsp;
+
+			Assisgned page:
+			<select id="pingeb_filter_page" size="1">
+				<option value="-1">all pages</option>
+			</select>&nbsp;
+
+			&nbsp;<input onclick="pingeb_get_tags()"type="button" id="pingeb_filter_tags" value="apply filter">
+			&nbsp;|&nbsp;<input onclick="pingeb_clear_filter()"type="button" id="pingeb_clear_filter" value="clear filter">
+		</p>
+	</div>
+	<?php 
+	//END Tag filter
+
+	//Tag list
+	?> 
+	<div class="pingeb-table" id="pingeb_admin_tag_list">
+		<div class="pingeb-table-header">
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;">Id</div>
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;">Maker Id</div>
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;">Marker Name</div>
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;">Layer</div>
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;">Position</div>
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;">Geofence Radius</div>
+			<div class="pingeb-table-header-col" style="border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;">Urls</div>
+			<div class="pingeb-table-header-col" style="border-left:1px solid #a4a4a4;">Redirect to</div>
+		</div>
+		<div class="pingeb-table-row">
+			<div class="pingeb-table-col-mm"><center>1</center></div>
+			<div class="pingeb-table-col-mm"><center>2</center></div>
+			<div class="pingeb-table-col-mm">Testmakrer Name</div>
+			<div class="pingeb-table-col-mm">Layer 3</div>
+			<div class="pingeb-table-col-mm">46.623671 / 14.306468</div>
+			<div class="pingeb-table-col">
+				<center><input type="number" onblur="pingeb_set_radius(1)" id="pingeb_tag_radius_1" size="3" min="20" max="250" value="20"></center>
+			</div>
+			<div class="pingeb-table-col">
+				<nobr>
+					<select id="pingeb_tag_url_add_type_3" size="1">
+						<option value="8">NFC</option>
+						<option value="9">QR</option>
+					</select>
+					&nbsp;<input type="text" size="12"  id="pingeb_tag_new_url_1">
+					&nbsp;<input onclick="pingeb_random_url(1)"type="button" id="pingeb_tag_new_url_btn_1" value="random url">
+					&nbsp;<input onclick="pingeb_add_url(1)" type="button" id="pingeb_tag_url_add_3" value="add">
+				</nobr>
+				<hr>
+				<ul style="list-style-type:none;">
+					<li>
+						<div style="width:30%;float:left;text-align:left;">NFC</div>
+						<div style="width:40%;float:left;text-align:left;"><b>/abcde</b></div>
+						<div style="width:30%;float:left;text-align:left;"><a href="#"><b>remove</b></a></div>
+					</li>
+					<li>
+						<div style="width:30%;float:left;text-align:left;">QR</div>
+						<div style="width:40%;float:left;text-align:left;"><b>/abcde</b></div>
+						<div style="width:30%;float:left;text-align:left;"><a href="#"><b>remove</b></a></div>
+					</li>
+				</ul>
+			</div>
+			<div class="pingeb-table-col">
+				<select id="pingeb_tag_page_1" onchange="pingeb_set_redirect(1)" size="1">
+					<option value="-1">Select a Page</option>
+					<option value="18">2te Testpage</option>
+					<option value="21">Danke!</option>
+					<option value="2" selected="">Dev Status</option>
+					<option value="11">Test Map</option>
+				</select>
+			</div>
+		</div>
+		<div class="pingeb-table-header">
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+			<div class="pingeb-table-header-col">&nbsp;</div>
+		</div>
+	</div>
+	<?php 
+	//END Tag list
+}	
+?>

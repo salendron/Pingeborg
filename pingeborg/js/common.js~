@@ -1,0 +1,21 @@
+function pingeb_show_loading(msg){
+	if(msg === ""){
+		msg = "loading...";
+	}
+
+	var overlay = document.createElement('div');
+	overlay.setAttribute('id', 'loadingoverlay');
+
+	document.body.appendChild(overlay);
+
+	html = "<p>";
+	html += "<img src='loading51.gif' style='height:30pt;'><br><br>";
+	html += msg;
+	html += "</p>";
+	overlay.innerHTML = html;
+}
+
+function pingeb_hide_loading() {
+	var overlay = document.getElementById('loadingoverlay');
+ 	document.body.removeChild(overlay);
+}
