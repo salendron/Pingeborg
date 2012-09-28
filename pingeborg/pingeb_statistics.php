@@ -18,7 +18,7 @@ function pingeb_heatmap( $atts ) {
 		<script type='text/javascript'>
 		// THANKS PATRICK WIED FOR THE HEATMAP STUFF!!!
 		// http://www.patrick-wied.at/static/heatmapjs/
-		var m,mdiv,hm,hmdiv,lltp,idx,sr; // map, map div, heatmap, heatmap div, and llToPix
+		var m,mdiv,hm,hmdiv,lltp,idx,sr; // map, map div, heatmap, heatmap div, llToPix, idx and data
 		window.onload = function(){
 			mdiv=document.getElementById('mapdiv'); 
 			m=new MQA.TileMap({elt:mdiv,zoom:{$zoom},latLng:{lat:{$lat},lng:{$lon}}}); // make a map
@@ -36,7 +36,6 @@ function pingeb_heatmap( $atts ) {
 				MQA.IO.doJSONP('http://pingelabs.beyond400nm.com/api/downloads?pageSize={$downloads}&callback=rendersearch');
 			}else{ // or not
 				if(hmdiv)hmdiv.innerHTML='';
-				alert('Zoom in for better details.');
 			}
 		};
 		function rendersearch(data){
@@ -60,9 +59,17 @@ function pingeb_heatmap( $atts ) {
 		}
 		
 		function doadddatapoint(){
-			lltp=m.llToPix(new MQA.LatLng(sr[idx].lat,sr[idx].lon));
-			hm.store.addDataPoint(lltp.x,lltp.y);
-			if(++idx<sr.length)t=setTimeout('doadddatapoint()',10);
+			x = 0;
+			
+			while(x < 10 && (idx + x) < sr.length){
+				lltp=m.llToPix(new MQA.LatLng(sr[idx + x].lat,sr[idx + x].lon));
+				hm.store.addDataPoint(lltp.x,lltp.y);
+				x++;
+			}
+			
+			idx = idx +x;
+			
+			if(++idx<sr.length)t=setTimeout('doadddatapoint()',100);
 		}
 	</script>
 	<div id='mapdiv' style='width:{$w}px;height:{$h}px;'></div>
