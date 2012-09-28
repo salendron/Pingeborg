@@ -3,9 +3,10 @@
 This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
 */
 
+//init function to call any api function
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_api($url){
-	//return "UrlParts: " . json_encode(pingeb_getUrlParts($url)) . " Params: " . json_encode(pingeb_getParams($url));
-	
 	$urlParts = pingeb_getUrlParts($url);
 	$params = pingeb_getParams($url);
 	

@@ -84,7 +84,7 @@ if(is_admin()){
 	}
 
 	add_action('admin_head', 'pingeb_admin_style');
-
+	
 	wp_enqueue_script( 'pingeb_common', plugins_url('/js/common.js', __FILE__) , array('jquery'), null, true );
 
 	//-----------------------------------------------------------------------------
@@ -92,6 +92,11 @@ if(is_admin()){
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags.php');
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags_callbacks.php');
 }
+//common js
+function pingeb_scripts() {
+	echo "<script type='text/javascript' src='" . plugins_url('/js/common.js', __FILE__) . "'></script>";
+}
+add_action('wp_head', 'pingeb_scripts');
 
 //api
 require_once(dirname(__FILE__) . '/pingeb_api.php');
@@ -101,7 +106,11 @@ require_once(dirname(__FILE__) . '/pingeb_links.php');
 
 //statistics
 require_once(dirname(__FILE__) . '/pingeb_statistics.php');
+
 wp_enqueue_script( 'pingeb_heatmap', plugins_url('/js/heatmap.js', __FILE__) , array('jquery'), null, true );
+wp_enqueue_script( 'raphael', plugins_url('/js/raphael-min.js', __FILE__) , array('jquery'), null, true );
+wp_enqueue_script( 'graphael', plugins_url('/js/g.raphael.js', __FILE__) , array('raphael'), null, true );
+wp_enqueue_script( 'raphael_line', plugins_url('/js/g.line.js', __FILE__) , array('graphael'), null, true );
 
 
 //widgets

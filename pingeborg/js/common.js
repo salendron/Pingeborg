@@ -38,3 +38,17 @@ function isNumber(s){
 function randomInt(low, high){ 
 	return Math.floor(Math.random()*(high-low+1)) + low; 
 } 
+
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+}
