@@ -234,7 +234,7 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 }
 add_shortcode( 'pingeb_data_qr_nfc_by_month', 'pingeb_statistic_nfc_qr_by_month' );
 
-//Shortcode [pingeb_data_qr_nfc_by_month]
+//Shortcode [pingeb_data_os]
 //Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
 //Author: Bruno Hautzenberger
 //Date: 09.2012
@@ -244,146 +244,92 @@ function pingeb_statistic_os( $atts ) {
 	extract( shortcode_atts( array(
 		'w' => '640',
 		'h' => '480',
-		'colorQR' => '#feed01',
-		'colorNFC' => '#bdcc00'
+		'radius' => '180',
+		'center' => '200,200',
+		'legendpos' => 'east',
+		'colors' => "'#feed01','#bdcc00','#a4a4a4','#e9e9e9', '#919191'"
 	), $atts ) );
 
-	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from wp_pingeb_statistik group by month(visit_time), url_type order by month(visit_time)"; 
+	$sql = "select os.name os, count(*) count from
+			(
+			select 
+			if(upper(visitor_os) like '%WINDOWS PHONE%', 'Windows Phone', 
+			if(upper(visitor_os) like '%IPHONE%', 'iOS',
+			if(upper(visitor_os) like '%IPAD%', 'iOS',
+			if(upper(visitor_os) like '%ANDROID%', 'Android',
+			if(upper(visitor_os) like '%SYMBIAN%', 'Symbian',
+			if(upper(visitor_os) like '%BADA%', 'Bada',
+			if(upper(visitor_os) like '%BLACKBERRY%', 'BlackBerry',
+			'other'))))))) as name
+			from wp_pingeb_statistik stat, wp_pingeb_url_type ut, wp_leafletmapsmarker_markers mm
+			where ut.id = stat.url_type and mm.id = stat.tag_id 
+			) os where os.name != 'other' group by os.name"; 
 	
 	//select tags
 	$arr = array ();
 	$i = 0;
-	
-	$cur_month = -1;
-	$cur_nfc = 0;
-	$cur_qr = 0;
+	$count = 0;
 	
 	$results = $wpdb->get_results($sql);
 	foreach ( $results as $result ) {
-		if($cur_month == $result->month || $cur_month == -1){
-			if($result->type == '1'){
-				$cur_nfc = $result->count;
-			}
-			if($result->type == '2'){
-				$cur_qr = $result->count;
-			}
-			
-			$cur_month = $result->month;
-		} else {
-			$arr[$i] = array ('NFC' => round($cur_nfc / (($cur_nfc + $cur_qr) / 100),0),'QR' => round($cur_qr / (($cur_nfc + $cur_qr) / 100),0));
-			$i++;
-			$cur_nfc = 0;
-			$cur_qr = 0;
-			
-			if($result->type == '1'){
-				$cur_nfc = $result->count;
-			}
-			if($result->type == '2'){
-				$cur_qr = $result->count;
-			}
-			
-			$cur_month = $result->month;
-		}
-	}
-	$arr[$i] = array ('NFC' => round($cur_nfc / (($cur_nfc + $cur_qr) / 100),0),'QR' => round($cur_qr / (($cur_nfc + $cur_qr) / 100),0));
-
-	//build chart data
-	$qrData = "[";
-	$nfcData = "[";
-	
-	$j = 0;
-	while($j < count($arr)){
-		if($j < count($arr) - 1){
-			$qrData .= $arr[$j]['QR'] . ",";
-			$nfcData .= $arr[$j]['NFC'] . ",";
-		} else {
-			$qrData .= $arr[$j]['QR'] . "]";
-			$nfcData .= $arr[$j]['NFC'] . "]";
-		}
+		$arr[$i] = array(
+			'os' => $result->os,
+			'count' => $result->count
+		);
+		$i++;
 		
-		$j++;
+		$count += $result->count;
 	}
 	
-	$ch = $h - 20;
-	$cw = $w - 10;
+	$onePc = $count / 100;
+	
+	$i = 0;
+	$values = '[';
+	$labels = '[';
+	foreach ( $arr as $os ) {
+		if($i < count($arr) -1){
+			$values .= $os['count'] / $onePc . ",";
+			$labels .= "'%%.%% - " . $os['os'] . "',";
+		} else {
+			$values .= $os['count'] / $onePc . "]";
+			$labels .= "'%%.%% - " . $os['os'] . "']";
+		}
+		$i++;
+	}
 	
 	//show chart
 	$chart = "<script>
+			
 			addLoadEvent( function(){
-				loadNfcVsQrByDate();
-				drawAxis();
+				loadiOsVsAndroid();
 			} );
 			
-			function loadNfcVsQrByDate(){
-				var r = Raphael('chartNfcQrByDate'),
-                    txtattr = { font: '25px sans-serif' };
-                
-                var x = [];
+			function loadiOsVsAndroid(){
+				var r = Raphael('chartMobileOs'),
+                    pie = r.piechart({$center}, {$radius}, " . $values . ", { legend: " . $labels . ", legendpos: '{$legendpos}','colors':[{$colors}]});
+				
+                pie.hover(function () {
+                    this.sector.stop();
+                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
 
-                for (var i = 0; i < $j; i++) {
-                    x[i] = i;
-                }
+                    if (this.label) {
+                        this.label[0].stop();
+                        this.label[0].attr({ r: 7.5 });
+                        this.label[1].attr({ 'font-weight': 800 });
+                    }
+                }, function () {
+                    this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, 'bounce');
 
-				r.linechart(0, 0, {$w}, {$h}-10, x, [$qrData, $nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}','{$colorNFC}'] });
-
-			}
-			
-			function drawAxis() {
-			 //AXIS
-			 var canvas = document.getElementById('chartNfcQrByDateCanvas');
-			 var ctx = canvas.getContext('2d');
-			 
-			 ctx.lineWidth = 1;
-			 ctx.strokeStyle = '#a4a4a4';
-			 
-			 ctx.beginPath();
-			 ctx.moveTo(20,0);
-			 ctx.lineTo(20,{$h});
-			 ctx.closePath();
-			 ctx.stroke();
-			 
-			 ctx.beginPath();
-			 ctx.moveTo(0,{$h}-20);
-			 ctx.lineTo({$w},{$h}-20);
-			 ctx.closePath();
-			 ctx.stroke();
-			 
-			 ctx.font='9px Arial';
-			 
-			 for(var i = 0; i < 10; i++){
-				ctx.fillText(((10 - i) * 10) + '%', 0, ({$h} / 10) * i);
-			 }
-			 
-			 //Legend
-			 //QR Label
-			 ctx.fillStyle = '{$colorQR}';
-			 ctx.beginPath();
-			 ctx.arc(32, {$h} - 10, 5, Math.PI*2, 0, true);
-			 ctx.closePath();
-			 ctx.fill();
-			 
-			 ctx.font='12px Arial bold';
-			 ctx.fillStyle = '#000000';
-			 ctx.fillText('QR', 40, {$h} - 6);
-			 
-			 //NFC Label
-			 ctx.fillStyle = '{$colorNFC}';
-			 ctx.beginPath();
-			 ctx.arc(72, {$h} - 10, 5, Math.PI*2, 0, true);
-			 ctx.closePath();
-			 ctx.fill();
-			 
-			 ctx.font='12px Arial bold';
-			 ctx.fillStyle = '#000000';
-			 ctx.fillText('NFC', 80, {$h} - 6);
+                    if (this.label) {
+                        this.label[0].animate({ r: 5 }, 500, 'bounce');
+                        this.label[1].attr({ 'font-weight': 400 });
+                    }
+                });
 			}
 		</script>
 
-		<div id='chartNfcQrByDateHolder' style='position:relative;width:{$w}px;height:{$h}px;'>
-			<canvas id='chartNfcQrByDateCanvas' width='{$w}' height='{$h}' style='position:absolute;top:0px;left:0px;z-index:1;'></canvas>
-			<div id='chartNfcQrByDate' style='overflow:hidden;position:absolute;top:0px;left:10px;width:" . $cw . "px;height:" . $ch . "px;z-index:0;'></div>
-		</div>";
-
+		<div id='chartMobileOs' style='width:{$w}px;height:{$h}px;'></div>";
+	
 	return $chart;
 }
 add_shortcode( 'pingeb_data_os', 'pingeb_statistic_os' );
