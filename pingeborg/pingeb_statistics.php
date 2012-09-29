@@ -17,7 +17,8 @@ function pingeb_heatmap( $atts ) {
 		'zoom' => '12'
 	), $atts ) );
 
-	return "<script type='text/javascript' src='http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Clu6y2101nu%2Caw%3Do5-00b5g'></script></script>
+	return "
+	    <script type='text/javascript' src='http://www.mapquestapi.com/sdk/js/v7.0.s/mqa.toolkit.js?key=Fmjtd%7Clu6y2101nu%2Caw%3Do5-00b5g'></script></script>
 		<script type='text/javascript'>
 		//Heatmap.js by PATRICK WIED - http://www.patrick-wied.at/static/heatmapjs/
 		var m,mdiv,hm,hmdiv,lltp,idx,sr; // map, map div, heatmap, heatmap div, llToPix, idx and data
@@ -79,33 +80,33 @@ function pingeb_heatmap( $atts ) {
 }
 add_shortcode( 'pingeb_heatmap', 'pingeb_heatmap' );
 
-//Shortcode [pingeb_heatmap]
-//Accepts Attr:  w=WIDTH h=HEIGHT c1=Color1 c1=Color2
+//Shortcode [pingeb_data_qr_nfc_by_month]
+//Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
 //Author: Bruno Hautzenberger
 //Date: 09.2012
-function pingeb_statistic_nfc_qr_by_week( $atts ) {
+function pingeb_statistic_nfc_qr_by_month( $atts ) {
 	global $wpdb;
 	
 	extract( shortcode_atts( array(
 		'w' => '640',
 		'h' => '480',
-		'c1' => '#feed01',
-		'c2' => '#bdcc00'
+		'colorQR' => '#feed01',
+		'colorNFC' => '#bdcc00'
 	), $atts ) );
 
-	$sql = "select week(visit_time,1) as week, url_type as type, count(url_type) as count from wp_pingeb_statistik group by week(visit_time,1), url_type order by week(visit_time,1)"; 
+	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from wp_pingeb_statistik group by month(visit_time), url_type order by month(visit_time)"; 
 	
 	//select tags
 	$arr = array ();
 	$i = 0;
 	
-	$cur_week = -1;
+	$cur_month = -1;
 	$cur_nfc = 0;
 	$cur_qr = 0;
 	
 	$results = $wpdb->get_results($sql);
 	foreach ( $results as $result ) {
-		if($cur_week == $result->week || $cur_week == -1){
+		if($cur_month == $result->month || $cur_month == -1){
 			if($result->type == '1'){
 				$cur_nfc = $result->count;
 			}
@@ -113,7 +114,7 @@ function pingeb_statistic_nfc_qr_by_week( $atts ) {
 				$cur_qr = $result->count;
 			}
 			
-			$cur_week = $result->week;
+			$cur_month = $result->month;
 		} else {
 			$arr[$i] = array ('NFC' => round($cur_nfc / (($cur_nfc + $cur_qr) / 100),0),'QR' => round($cur_qr / (($cur_nfc + $cur_qr) / 100),0));
 			$i++;
@@ -127,7 +128,7 @@ function pingeb_statistic_nfc_qr_by_week( $atts ) {
 				$cur_qr = $result->count;
 			}
 			
-			$cur_week = $result->week;
+			$cur_month = $result->month;
 		}
 	}
 	$arr[$i] = array ('NFC' => round($cur_nfc / (($cur_nfc + $cur_qr) / 100),0),'QR' => round($cur_qr / (($cur_nfc + $cur_qr) / 100),0));
@@ -149,10 +150,14 @@ function pingeb_statistic_nfc_qr_by_week( $atts ) {
 		$j++;
 	}
 	
+	$ch = $h - 20;
+	$cw = $w - 10;
+	
 	//show chart
 	$chart = "<script>
 			addLoadEvent( function(){
 				loadNfcVsQrByDate();
+				drawAxis();
 			} );
 			
 			function loadNfcVsQrByDate(){
@@ -165,15 +170,223 @@ function pingeb_statistic_nfc_qr_by_week( $atts ) {
                     x[i] = i;
                 }
 
-                r.linechart(0, 0, {$w}, {$h}, x, [$nfcData, $qrData],{ nostroke: false, shade: true,smooth: false,'colors':['{$c1}','{$c2}'] });
+				r.linechart(0, 0, {$w}, {$h}-10, x, [$qrData, $nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}','{$colorNFC}'] });
+
+			}
+			
+			function drawAxis() {
+			 //AXIS
+			 var canvas = document.getElementById('chartNfcQrByDateCanvas');
+			 var ctx = canvas.getContext('2d');
+			 
+			 ctx.lineWidth = 1;
+			 ctx.strokeStyle = '#a4a4a4';
+			 
+			 ctx.beginPath();
+			 ctx.moveTo(20,0);
+			 ctx.lineTo(20,{$h});
+			 ctx.closePath();
+			 ctx.stroke();
+			 
+			 ctx.beginPath();
+			 ctx.moveTo(0,{$h}-20);
+			 ctx.lineTo({$w},{$h}-20);
+			 ctx.closePath();
+			 ctx.stroke();
+			 
+			 ctx.font='9px Arial';
+			 
+			 for(var i = 0; i < 10; i++){
+				ctx.fillText(((10 - i) * 10) + '%', 0, ({$h} / 10) * i);
+			 }
+			 
+			 //Legend
+			 //QR Label
+			 ctx.fillStyle = '{$colorQR}';
+			 ctx.beginPath();
+			 ctx.arc(32, {$h} - 10, 5, Math.PI*2, 0, true);
+			 ctx.closePath();
+			 ctx.fill();
+			 
+			 ctx.font='12px Arial bold';
+			 ctx.fillStyle = '#000000';
+			 ctx.fillText('QR', 40, {$h} - 6);
+			 
+			 //NFC Label
+			 ctx.fillStyle = '{$colorNFC}';
+			 ctx.beginPath();
+			 ctx.arc(72, {$h} - 10, 5, Math.PI*2, 0, true);
+			 ctx.closePath();
+			 ctx.fill();
+			 
+			 ctx.font='12px Arial bold';
+			 ctx.fillStyle = '#000000';
+			 ctx.fillText('NFC', 80, {$h} - 6);
 			}
 		</script>
 
-		<div class='chartWidget' id='chartNfcQrByDate' style='width:{$w}px;height:{$h}px;'></div>";
+		<div id='chartNfcQrByDateHolder' style='position:relative;width:{$w}px;height:{$h}px;'>
+			<canvas id='chartNfcQrByDateCanvas' width='{$w}' height='{$h}' style='position:absolute;top:0px;left:0px;z-index:1;'></canvas>
+			<div id='chartNfcQrByDate' style='overflow:hidden;position:absolute;top:0px;left:10px;width:" . $cw . "px;height:" . $ch . "px;z-index:0;'></div>
+		</div>";
 
 	return $chart;
 }
-add_shortcode( 'pingeb_data_qr_nfc_by_week', 'pingeb_statistic_nfc_qr_by_week' );
+add_shortcode( 'pingeb_data_qr_nfc_by_month', 'pingeb_statistic_nfc_qr_by_month' );
+
+//Shortcode [pingeb_data_qr_nfc_by_month]
+//Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
+//Author: Bruno Hautzenberger
+//Date: 09.2012
+function pingeb_statistic_os( $atts ) {
+	global $wpdb;
+	
+	extract( shortcode_atts( array(
+		'w' => '640',
+		'h' => '480',
+		'colorQR' => '#feed01',
+		'colorNFC' => '#bdcc00'
+	), $atts ) );
+
+	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from wp_pingeb_statistik group by month(visit_time), url_type order by month(visit_time)"; 
+	
+	//select tags
+	$arr = array ();
+	$i = 0;
+	
+	$cur_month = -1;
+	$cur_nfc = 0;
+	$cur_qr = 0;
+	
+	$results = $wpdb->get_results($sql);
+	foreach ( $results as $result ) {
+		if($cur_month == $result->month || $cur_month == -1){
+			if($result->type == '1'){
+				$cur_nfc = $result->count;
+			}
+			if($result->type == '2'){
+				$cur_qr = $result->count;
+			}
+			
+			$cur_month = $result->month;
+		} else {
+			$arr[$i] = array ('NFC' => round($cur_nfc / (($cur_nfc + $cur_qr) / 100),0),'QR' => round($cur_qr / (($cur_nfc + $cur_qr) / 100),0));
+			$i++;
+			$cur_nfc = 0;
+			$cur_qr = 0;
+			
+			if($result->type == '1'){
+				$cur_nfc = $result->count;
+			}
+			if($result->type == '2'){
+				$cur_qr = $result->count;
+			}
+			
+			$cur_month = $result->month;
+		}
+	}
+	$arr[$i] = array ('NFC' => round($cur_nfc / (($cur_nfc + $cur_qr) / 100),0),'QR' => round($cur_qr / (($cur_nfc + $cur_qr) / 100),0));
+
+	//build chart data
+	$qrData = "[";
+	$nfcData = "[";
+	
+	$j = 0;
+	while($j < count($arr)){
+		if($j < count($arr) - 1){
+			$qrData .= $arr[$j]['QR'] . ",";
+			$nfcData .= $arr[$j]['NFC'] . ",";
+		} else {
+			$qrData .= $arr[$j]['QR'] . "]";
+			$nfcData .= $arr[$j]['NFC'] . "]";
+		}
+		
+		$j++;
+	}
+	
+	$ch = $h - 20;
+	$cw = $w - 10;
+	
+	//show chart
+	$chart = "<script>
+			addLoadEvent( function(){
+				loadNfcVsQrByDate();
+				drawAxis();
+			} );
+			
+			function loadNfcVsQrByDate(){
+				var r = Raphael('chartNfcQrByDate'),
+                    txtattr = { font: '25px sans-serif' };
+                
+                var x = [];
+
+                for (var i = 0; i < $j; i++) {
+                    x[i] = i;
+                }
+
+				r.linechart(0, 0, {$w}, {$h}-10, x, [$qrData, $nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}','{$colorNFC}'] });
+
+			}
+			
+			function drawAxis() {
+			 //AXIS
+			 var canvas = document.getElementById('chartNfcQrByDateCanvas');
+			 var ctx = canvas.getContext('2d');
+			 
+			 ctx.lineWidth = 1;
+			 ctx.strokeStyle = '#a4a4a4';
+			 
+			 ctx.beginPath();
+			 ctx.moveTo(20,0);
+			 ctx.lineTo(20,{$h});
+			 ctx.closePath();
+			 ctx.stroke();
+			 
+			 ctx.beginPath();
+			 ctx.moveTo(0,{$h}-20);
+			 ctx.lineTo({$w},{$h}-20);
+			 ctx.closePath();
+			 ctx.stroke();
+			 
+			 ctx.font='9px Arial';
+			 
+			 for(var i = 0; i < 10; i++){
+				ctx.fillText(((10 - i) * 10) + '%', 0, ({$h} / 10) * i);
+			 }
+			 
+			 //Legend
+			 //QR Label
+			 ctx.fillStyle = '{$colorQR}';
+			 ctx.beginPath();
+			 ctx.arc(32, {$h} - 10, 5, Math.PI*2, 0, true);
+			 ctx.closePath();
+			 ctx.fill();
+			 
+			 ctx.font='12px Arial bold';
+			 ctx.fillStyle = '#000000';
+			 ctx.fillText('QR', 40, {$h} - 6);
+			 
+			 //NFC Label
+			 ctx.fillStyle = '{$colorNFC}';
+			 ctx.beginPath();
+			 ctx.arc(72, {$h} - 10, 5, Math.PI*2, 0, true);
+			 ctx.closePath();
+			 ctx.fill();
+			 
+			 ctx.font='12px Arial bold';
+			 ctx.fillStyle = '#000000';
+			 ctx.fillText('NFC', 80, {$h} - 6);
+			}
+		</script>
+
+		<div id='chartNfcQrByDateHolder' style='position:relative;width:{$w}px;height:{$h}px;'>
+			<canvas id='chartNfcQrByDateCanvas' width='{$w}' height='{$h}' style='position:absolute;top:0px;left:0px;z-index:1;'></canvas>
+			<div id='chartNfcQrByDate' style='overflow:hidden;position:absolute;top:0px;left:10px;width:" . $cw . "px;height:" . $ch . "px;z-index:0;'></div>
+		</div>";
+
+	return $chart;
+}
+add_shortcode( 'pingeb_data_os', 'pingeb_statistic_os' );
 
 // [bartag foo="foo-value"]
 function pingeb_statistic_nfc_qr( $atts ) {
@@ -186,4 +399,6 @@ function pingeb_statistic_nfc_qr( $atts ) {
 }
 add_shortcode( 'pingeb_data_qr_nfc', 'pingeb_statistic_nfc_qr' );
 
+
+add_filter('widget_text', 'do_shortcode');
 ?>

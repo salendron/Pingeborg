@@ -111,6 +111,7 @@ wp_enqueue_script( 'pingeb_heatmap', plugins_url('/js/heatmap.js', __FILE__) , a
 wp_enqueue_script( 'raphael', plugins_url('/js/raphael-min.js', __FILE__) , array('jquery'), null, true );
 wp_enqueue_script( 'graphael', plugins_url('/js/g.raphael.js', __FILE__) , array('raphael'), null, true );
 wp_enqueue_script( 'raphael_line', plugins_url('/js/g.line.js', __FILE__) , array('graphael'), null, true );
+wp_enqueue_script( 'raphael_bar', plugins_url('/js/g.bar.js', __FILE__) , array('graphael'), null, true );
 
 
 //widgets
