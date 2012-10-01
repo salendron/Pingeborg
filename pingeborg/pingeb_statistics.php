@@ -80,6 +80,83 @@ function pingeb_heatmap( $atts ) {
 }
 add_shortcode( 'pingeb_heatmap', 'pingeb_heatmap' );
 
+//Shortcode [pingeb_data_qr_nfc]
+//Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
+//Author: Bruno Hautzenberger
+//Date: 10.2012
+function pingeb_statistic_nfc_qr( $atts ) {
+	global $wpdb;
+	
+	extract( shortcode_atts( array(
+		'w' => '640',
+		'h' => '480',
+		'radius' => '180',
+		'center' => '200,200',
+		'legendpos' => 'east',
+		'colors' => "'#feed01','#bdcc00'"
+	), $atts ) );
+
+	$sql = "select url_type as type, count(url_type) as count from wp_pingeb_statistik group by url_type"; 
+	
+	//select tags
+	$arr = array ();
+	$i = 0;
+	
+	$cur_month = -1;
+	$nfc = 0;
+	$qr = 0;
+	
+	$results = $wpdb->get_results($sql);
+	foreach ( $results as $result ) {
+		if($result->type == 1){
+			$nfc = $result->count;
+		}
+		
+		if($result->type == 2){
+			$qr = $result->count;
+		}
+	}
+	
+	$data = "[" . $nfc . "," . $qr . "]"; 
+	$labels = "['%%.%% - NFC','%%.%% - QR']"; 
+	
+	//show chart
+	$chart = "<script>
+			
+			addLoadEvent( function(){
+				loadNfcQr();
+			} );
+			
+			function loadNfcQr(){
+				var r = Raphael('chartNfcQr'),
+                    pie = r.piechart({$center}, {$radius}, " . $data . ", { legend: " . $labels . ", legendpos: '{$legendpos}','colors':[{$colors}]});
+				
+                pie.hover(function () {
+                    this.sector.stop();
+                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
+
+                    if (this.label) {
+                        this.label[0].stop();
+                        this.label[0].attr({ r: 7.5 });
+                        this.label[1].attr({ 'font-weight': 800 });
+                    }
+                }, function () {
+                    this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, 'bounce');
+
+                    if (this.label) {
+                        this.label[0].animate({ r: 5 }, 500, 'bounce');
+                        this.label[1].attr({ 'font-weight': 400 });
+                    }
+                });
+			}
+		</script>
+
+		<div id='chartNfcQr' style='width:{$w}px;height:{$h}px;'></div>";
+
+	return $chart;
+}
+add_shortcode( 'pingeb_data_qr_nfc', 'pingeb_statistic_nfc_qr' );
+
 //Shortcode [pingeb_data_qr_nfc_by_month]
 //Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
 //Author: Bruno Hautzenberger
@@ -333,17 +410,6 @@ function pingeb_statistic_os( $atts ) {
 	return $chart;
 }
 add_shortcode( 'pingeb_data_os', 'pingeb_statistic_os' );
-
-// [bartag foo="foo-value"]
-function pingeb_statistic_nfc_qr( $atts ) {
-	extract( shortcode_atts( array(
-		'test' => 'something',
-		'test2' => 'something else',
-	), $atts ) );
-
-	return "test = {$test}, test2 = {$test2}";
-}
-add_shortcode( 'pingeb_data_qr_nfc', 'pingeb_statistic_nfc_qr' );
 
 
 add_filter('widget_text', 'do_shortcode');

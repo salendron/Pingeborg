@@ -4,7 +4,7 @@
 Plugin Name: Pingeborg
 Plugin URI: http://pingeb.org
 Description: Pingeb.org und zwar gesamt!
-Version: 0.0.3.1
+Version: 1.0.0.0
 Author: Bruno Hautzenberger
 Author URI: http://the-engine.at
 License: This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
