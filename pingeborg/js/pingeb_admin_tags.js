@@ -145,7 +145,7 @@ function pingeb_build_tag_list(){
 
 	//header
 	html +="<div class='pingeb-table-header'>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;'>Id</div>";
+	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;'>Id</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Maker Id</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Name</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Layer</div>";
@@ -158,7 +158,7 @@ function pingeb_build_tag_list(){
 	//tags
 	for(var i = 0; i < tags.length; i++){
 		html +="<div class='pingeb-table-row'>";
-		html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['id'] + "</center></div>";
+		//html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['id'] + "</center></div>";
 		html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['marker_id'] + "</center></div>";
 		html +="<div class='pingeb-table-col-mm'>" + tags[i]['name'] + "</div>";
 		html +="<div class='pingeb-table-col-mm'>" + tags[i]['layer_name'] + "</div>";
@@ -178,7 +178,7 @@ function pingeb_build_tag_list(){
 		html +="</select>";
 		html +="&nbsp;<input type='text' size='12'  id='pingeb_tag_new_url_" + tags[i]['id'] + "'>";
 		html +="&nbsp;<input onclick='pingeb_random_url(" + tags[i]['id'] + ")'type='button' id='pingeb_tag_new_url_btn_" + tags[i]['id'] + "' value='random url'>";
-		html +="&nbsp;<input onclick='pingeb_add_url(" + tags[i]['id'] + ")' type='button' id='pingeb_tag_url_add_" + tags[i]['id'] + "' value='add'>";
+		html +="&nbsp;<input onclick='pingeb_add_url(" + tags[i]['id'] + "," + tags[i]['marker_id'] + ")' type='button' id='pingeb_tag_url_add_" + tags[i]['id'] + "' value='add'>";
 		html +="</nobr>";
 		
 		html +="<ul id='pingeb_tag_urls_" + tags[i]['id'] + "' style='list-style-type:none;'>";
@@ -232,7 +232,7 @@ function pingeb_build_tag_list(){
 	tagList.innerHTML = html;
 }
 
-function pingeb_add_url(id){
+function pingeb_add_url(id, tagid){
 	pingeb_show_loading("saving url...");
 	
 	var urlSuffix = jQuery.trim(document.getElementById("pingeb_tag_new_url_" + id).value);
@@ -269,7 +269,7 @@ function pingeb_add_url(id){
 		}
 			
 		html +="<div style='width:40%;float:left;text-align:left;'><b>/" + urlSuffix + "</b></div>";
-		html +="<div style='width:30%;float:left;text-align:left;'><a href='javascript:pingeb_remove_url(" + newUrlId + ");'><b>remove</b></a></div>";
+		html +="<div style='width:30%;float:left;text-align:left;'><a href='javascript:pingeb_remove_url(" + newUrlId + "," + id + ");'><b>remove</b></a></div>";
 		html +="</li>";
 		
 		urlList.innerHTML += html;

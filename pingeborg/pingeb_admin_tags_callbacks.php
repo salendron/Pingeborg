@@ -89,9 +89,9 @@ function pingeb_get_tags_callback() {
 
 	$sql = "select mm.markername as marker_name, mm.lat as lat, mm.lon as lng, IFNULL(pt.id, -1) as id, mm.id as marker_id, ";
 	$sql .= "IFNULL(pt.geofence_radius,20) as geofence_radius, IFNULL(pt.page_id,-1) as page_id, ml.name as layer_name, ml.id as layer_id ";
-	$sql .= "from wp_leafletmapsmarker_markers mm ";
-	$sql .= "inner join wp_leafletmapsmarker_layers ml on mm.layer = ml.id ";
-	$sql .= "left outer join wp_pingeb_tag pt on mm.id = pt.marker_id ";
+	$sql .= "from " . $wpdb->prefix . "leafletmapsmarker_markers mm ";
+	$sql .= "inner join " . $wpdb->prefix . "leafletmapsmarker_layers ml on mm.layer = ml.id ";
+	$sql .= "left outer join " . $wpdb->prefix . "pingeb_tag pt on mm.id = pt.marker_id ";
 	$sql .= "where (ml.id = " . $wpdb->escape($layer_id) . " OR " . $wpdb->escape($layer_id) . " = -1) ";
 	$sql .= "and (mm.markername like '" . $wpdb->escape($marker_name) . "%' OR '" . $wpdb->escape($marker_name) . "' = '-1') ";
 	$sql .= "and (pt.page_id = " . $wpdb->escape($page_id) . " OR " . $wpdb->escape($page_id) . " = -1) ";

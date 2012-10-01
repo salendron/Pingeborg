@@ -96,7 +96,7 @@ function pingeb_statistic_nfc_qr( $atts ) {
 		'colors' => "'#feed01','#bdcc00'"
 	), $atts ) );
 
-	$sql = "select url_type as type, count(url_type) as count from wp_pingeb_statistik group by url_type"; 
+	$sql = "select url_type as type, count(url_type) as count from " . $wpdb->prefix . "pingeb_statistik group by url_type"; 
 	
 	//select tags
 	$arr = array ();
@@ -171,7 +171,7 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 		'colorNFC' => '#bdcc00'
 	), $atts ) );
 
-	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from wp_pingeb_statistik group by month(visit_time), url_type order by month(visit_time)"; 
+	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from " . $wpdb->prefix . "pingeb_statistik where month(visit_time) != month(now()) group by month(visit_time), url_type order by month(visit_time)"; 
 	
 	//select tags
 	$arr = array ();
@@ -227,7 +227,7 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 		$j++;
 	}
 	
-	$ch = $h - 20;
+	$ch = $h - 10;
 	$cw = $w - 10;
 	
 	//show chart
@@ -238,7 +238,8 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 			} );
 			
 			function loadNfcVsQrByDate(){
-				var r = Raphael('chartNfcQrByDate'),
+				//nfc
+				var r = Raphael('chartNfcQrByDateNfc'),
                     txtattr = { font: '25px sans-serif' };
                 
                 var x = [];
@@ -247,8 +248,19 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
                     x[i] = i;
                 }
 
-				r.linechart(0, 0, {$w}, {$h}-10, x, [$qrData, $nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}','{$colorNFC}'] });
+				r.linechart(0, 0, {$w}, {$h}-10, x, [$nfcData,$qrData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorNFC}', 'transparent'] });
 
+				//qr
+				var r2 = Raphael('chartNfcQrByDateQr'),
+                    txtattr = { font: '25px sans-serif' };
+                
+                var x = [];
+
+                for (var i = 0; i < $j; i++) {
+                    x[i] = i;
+                }
+
+				r2.linechart(0, 0, {$w}, {$h}-10, x, [$qrData,$nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}', 'transparent'] });
 			}
 			
 			function drawAxis() {
@@ -303,8 +315,9 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 		</script>
 
 		<div id='chartNfcQrByDateHolder' style='position:relative;width:{$w}px;height:{$h}px;'>
-			<canvas id='chartNfcQrByDateCanvas' width='{$w}' height='{$h}' style='position:absolute;top:0px;left:0px;z-index:1;'></canvas>
-			<div id='chartNfcQrByDate' style='overflow:hidden;position:absolute;top:0px;left:10px;width:" . $cw . "px;height:" . $ch . "px;z-index:0;'></div>
+			<canvas id='chartNfcQrByDateCanvas' width='{$w}' height='{$h}' style='position:absolute;top:0px;left:0px;z-index:2;'></canvas>
+			<div id='chartNfcQrByDateNfc' style='overflow:hidden;position:absolute;top:0px;left:10px;width:" . $cw . "px;height:" . $ch . "px;z-index:1;'></div>
+			<div id='chartNfcQrByDateQr' style='-moz-transform: scaleY(-1);-webkit-transform: scaleY(-1);-ms-transform: scaleY(-1);overflow:hidden;position:absolute;top:0px;left:10px;width:" . $cw . "px;height:" . $ch . "px;z-index:0;'></div>
 		</div>";
 
 	return $chart;
@@ -338,7 +351,7 @@ function pingeb_statistic_os( $atts ) {
 			if(upper(visitor_os) like '%BADA%', 'Bada',
 			if(upper(visitor_os) like '%BLACKBERRY%', 'BlackBerry',
 			'other'))))))) as name
-			from wp_pingeb_statistik stat, wp_pingeb_url_type ut, wp_leafletmapsmarker_markers mm
+			from " . $wpdb->prefix . "pingeb_statistik stat, " . $wpdb->prefix . "pingeb_url_type ut, " . $wpdb->prefix . "leafletmapsmarker_markers mm
 			where ut.id = stat.url_type and mm.id = stat.tag_id 
 			) os where os.name != 'other' group by os.name"; 
 	
