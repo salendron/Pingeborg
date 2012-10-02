@@ -29,7 +29,7 @@ function pingeb_api($url){
 }
 
 //gets all downloads
-//accetps params layer, from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
+//accetps params from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
 //Author: Bruno Hautzenberger
 //Date: 09.2012
 function pingeb_api_get_downloads($params){
@@ -75,7 +75,7 @@ function pingeb_api_get_downloads($params){
 		$sql .= "and stat.visit_time <= '" . $wpdb->escape($to) . "' ";
 	}
 		
-	$sql .= "order by stat.visit_time
+	$sql .= "order by stat.visit_time desc 
 		LIMIT " . ((($wpdb->escape($page) - 1) * $wpdb->escape($pageSize)) + 1) . "," . $wpdb->escape($pageSize);
 	
 	//select tags
@@ -85,7 +85,7 @@ function pingeb_api_get_downloads($params){
 	foreach ( $downloads as $download ) {
 		$arr[$i] = array(
 		'time'=>$download->time,
-		'type'=>$download->typ,
+		'type'=>$download->type,
 		'tagname'=>$download->tagname,
 		'lat'=>$download->lat,
 		'lon'=>$download->lon,
