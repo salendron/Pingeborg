@@ -5,7 +5,7 @@
 */
 
 //Shortcode [pingeb_heatmap]
-//Accepts Attr:  w=WIDTH h=HEIGHT zoom=ZOOMLEVEL downloads=DOWNLOADS TO SHOW
+//Accepts Attr:  w=WIDTH h=HEIGHT zoom=ZOOMLEVEL downloads=DOWNLOADS TO SHOW, lat=latitude of mapcenter,lon=longitude of mapcenter
 //Author: Bruno Hautzenberger
 //Date: 09.2012
 function pingeb_heatmap( $atts ) {	
@@ -82,7 +82,7 @@ function pingeb_heatmap( $atts ) {
 add_shortcode( 'pingeb_heatmap', 'pingeb_heatmap' );
 
 //Shortcode [pingeb_data_qr_nfc]
-//Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
+//Accepts Attr:  w=Width, h=Height, radius=pie radius, center=center of pie chart in chart area, legendpos=north,south,east, west,colors=colors of chart parts
 //Author: Bruno Hautzenberger
 //Date: 10.2012
 function pingeb_statistic_nfc_qr( $atts ) {
