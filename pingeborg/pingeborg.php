@@ -7,7 +7,8 @@ Description: Pingeb.org und zwar gesamt!
 Version: 1.0.0.0
 Author: Bruno Hautzenberger
 Author URI: http://the-engine.at
-License: This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+License: 	This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
+			To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
 */
 //-----------------------------------------------------------------------------
 
@@ -99,6 +100,7 @@ if(is_admin()){
 	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance.php');
 	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php');
 }
+
 //common js
 function pingeb_scripts() {
 	echo "<script type='text/javascript' src='" . plugins_url('/js/common.js', __FILE__) . "'></script>";
@@ -114,6 +116,7 @@ require_once(dirname(__FILE__) . '/pingeb_links.php');
 //statistics
 require_once(dirname(__FILE__) . '/pingeb_statistics.php');
 
+//add JavaScript Libraries
 wp_enqueue_script( 'pingeb_heatmap', plugins_url('/js/heatmap.js', __FILE__) , array('jquery'), null, true );
 wp_enqueue_script( 'raphael', plugins_url('/js/raphael-min.js', __FILE__) , array('jquery'), null, true );
 wp_enqueue_script( 'graphael', plugins_url('/js/g.raphael.js', __FILE__) , array('raphael'), null, true );

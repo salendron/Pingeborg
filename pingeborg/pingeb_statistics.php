@@ -1,6 +1,7 @@
 <?php
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
+* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
 */
 
 //Shortcode [pingeb_heatmap]
@@ -423,7 +424,6 @@ function pingeb_statistic_os( $atts ) {
 	return $chart;
 }
 add_shortcode( 'pingeb_data_os', 'pingeb_statistic_os' );
-
 
 add_filter('widget_text', 'do_shortcode');
 ?>

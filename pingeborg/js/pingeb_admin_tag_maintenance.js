@@ -1,5 +1,6 @@
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
+* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
 */
 
 //Global Members
@@ -7,6 +8,9 @@ var markers = [];
 var tagsWithoutDownloads = [];
 var tagsWithoutMarkers = [];
 
+//Load available markers on page load
+//Author: Bruno Hautzenberger
+//Date: 10.2012
 jQuery(document).ready(function($) {
 	pingeb_show_loading("");
 
@@ -21,6 +25,9 @@ jQuery(document).ready(function($) {
 	});	
 });
 
+//Load Tag list depending on mode.
+//Author: Bruno Hautzenberger
+//Date: 10.2012
 function pingeb_show_maintenance_list(){
 	var mode = document.getElementById('pingeb_tag_maintenance_mode').value;
 	var list = document.getElementById('pingeb_tag_maintenance_list');
@@ -132,6 +139,9 @@ function pingeb_show_maintenance_list(){
 	}
 }
 
+//Merge a tag without marker with an existing marker
+//Author: Bruno Hautzenberger
+//Date: 10.2012
 function pingeb_tag_maintenance_merge_tag(id){
 	var new_marker = document.getElementById('pingeb_tag_maintenance_new_marker_' + id).value;
 	
@@ -159,6 +169,9 @@ function pingeb_tag_maintenance_merge_tag(id){
 	});
 }
 
+//Delete a tag without marker and all its data
+//Author: Bruno Hautzenberger
+//Date: 10.2012
 function pingeb_tag_maintenance_delete_tag(id){
 	var answer = confirm ("Do you really want to delete this tag and loose all downloads of this tag?")
 	if (!answer){

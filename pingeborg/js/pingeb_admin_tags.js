@@ -1,5 +1,6 @@
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
+* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
 */
 
 //Global Members
@@ -8,6 +9,9 @@ var url_types = [];
 var tags = [];
 var layers = [];
 
+//Load available tags, pages and url types on page load
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 jQuery(document).ready(function($) {
 	pingeb_show_loading("");
 
@@ -54,6 +58,9 @@ jQuery(document).ready(function($) {
 	});	
 });
 
+//Initialize the UI and tag list.
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function prepareUI(){
 	//fill comboxes with pages
 	var cmbBatchTagPage = document.getElementById('pingeb_batch_tag_page');
@@ -78,6 +85,9 @@ function prepareUI(){
 	cmbFilterLayer.innerHTML += layerOptions;
 }
 
+//Get all tags based on filters
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_get_tags(){
 	pingeb_show_loading("");
 	
@@ -105,6 +115,9 @@ function pingeb_get_tags(){
 	});
 }
 
+//clear filters and reload tag list
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_clear_filter(){
 	document.getElementById('pingeb_filter_page').selectedIndex = 0;
 	document.getElementById('pingeb_filter_marker_name').value = "";
@@ -113,6 +126,9 @@ function pingeb_clear_filter(){
 	pingeb_get_tags();
 }
 
+//Saves tag data
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_save_tag(id){
 	pingeb_show_loading("saving tag...");
 	
@@ -141,6 +157,9 @@ function pingeb_save_tag(id){
 	});
 }
 
+//Render tag list
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_build_tag_list(){
 	var html = "";
 	var tagList = document.getElementById('pingeb_admin_tag_list');
@@ -235,6 +254,9 @@ function pingeb_build_tag_list(){
 	tagList.innerHTML = html;
 }
 
+//Add a new url to a tag
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_add_url(id, tagid){
 	pingeb_show_loading("saving url...");
 	
@@ -283,6 +305,9 @@ function pingeb_add_url(id, tagid){
 	});
 }
 
+//Removes an url
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_remove_url(id,tag_id){
 	pingeb_show_loading("removing url...");	
 
@@ -300,6 +325,9 @@ function pingeb_remove_url(id,tag_id){
 	});
 }
 
+//Get's a random new url
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_random_url(id){
 	var urlBox = document.getElementById("pingeb_tag_new_url_" + id);
 	var ulrLetters = "abcdefghijklmnopqrstuvwxyz1234567890";
@@ -313,6 +341,9 @@ function pingeb_random_url(id){
 	urlBox.value = newUrl;
 }
 
+//Applies geofence radius to all selected tags
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_batch_set_radius(i){
 	if(tags.length == 0){
 		return;
@@ -355,6 +386,9 @@ function pingeb_batch_set_radius(i){
 	});
 }
 
+//Applies page to all selected tags
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_batch_set_page(i){
 	if(tags.length == 0){
 		return;
@@ -391,6 +425,9 @@ function pingeb_batch_set_page(i){
 	});
 }
 
+//Get QR Code for url and displays it
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_show_qr(url){
 	var overlay = document.createElement('div');
 	overlay.setAttribute('id', 'qroverlay');
@@ -409,6 +446,9 @@ function pingeb_show_qr(url){
 	overlay.innerHTML = html;
 }
 
+//Hides QR overlay
+//Author: Bruno Hautzenberger
+//Date: 09.2012
 function pingeb_hide_qr() {
 	var overlay = document.getElementById('qroverlay');
  	document.body.removeChild(overlay);

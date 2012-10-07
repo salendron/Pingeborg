@@ -1,6 +1,7 @@
 <?php
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
+* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
 */
 
 //Returns all pages as JSON Array
@@ -47,7 +48,7 @@ function pingeb_get_url_type_callback() {
 	die();
 }
 
-//Returns all Maps Marker LAyers as JSON Array
+//Returns all Maps Marker Layers as JSON Array
 //Author: Bruno Hautzenberger
 //Date: 09.2012
 add_action('wp_ajax_pingeb_get_layers', 'pingeb_get_layers_callback');

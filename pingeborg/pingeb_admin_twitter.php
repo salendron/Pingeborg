@@ -1,20 +1,24 @@
 <?php
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
+* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
+* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
 */
 
-//Add Tag Admin Page
+//Add Twitter Admin Page
 add_action("admin_menu", "register_pingeb_twitter_admin");
 
-//Registers the Tag Admin Page
+//Registers the Twitter Admin Page
 //Author: Bruno Hautzenberger
-//Date: 09.2012
+//Date: 10.2012
 function register_pingeb_twitter_admin() {
    add_submenu_page("pingeb_tag_admin", "Twitter Settings", "Twitter Settings", "add_users", "pingeb_twitter_admin", "pingeb_twitter_admin"); 
 
    add_action( 'admin_init', 'pingeb_register_twitter_settings' );
 }
 
+//Registers the Twitter Settings
+//Author: Bruno Hautzenberger
+//Date: 10.2012
 function pingeb_register_twitter_settings() {
 	//register our settings
 	register_setting( 'pingeb_twitter_settings_group', 'use_twitter' );
@@ -29,8 +33,6 @@ function pingeb_register_twitter_settings() {
 //Author: Bruno Hautzenberger
 //Date: 10.2012
 function pingeb_twitter_admin(){
-	//wp_enqueue_script( 'pingeb_admin_tags', plugins_url('/js/pingeb_admin_tags.js', __FILE__) , array('jquery'), null, true );
-
 	//Page Header   
 	?> 
 	<div id="pingeb-admin-box" style="min-height:50px;">
