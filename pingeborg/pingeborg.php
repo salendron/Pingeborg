@@ -91,6 +91,13 @@ if(is_admin()){
 	//Tag Admin
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags.php');
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags_callbacks.php');
+	
+	//Twitter Settings
+	require_once(dirname(__FILE__) . '/pingeb_admin_twitter.php');
+	
+	//Tag Maintenance
+	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance.php');
+	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php');
 }
 //common js
 function pingeb_scripts() {

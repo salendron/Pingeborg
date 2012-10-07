@@ -29,7 +29,7 @@ function pingeb_api($url){
 }
 
 //gets all downloads
-//accetps params from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
+//accetps params layer, from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
 //Author: Bruno Hautzenberger
 //Date: 09.2012
 function pingeb_api_get_downloads($params){
@@ -130,9 +130,9 @@ function pingeb_api_get_tags($params){
 	}
 
 	//build statement
-	$sql = "select mm.markername as name, mm.lat as lat, mm.lon as lon, ml.name layer, IFNULL(stat.count,0) as clicks from " . $wpdb->prefix . "leafletmapsmarker_markers mm
+	$sql = "select stat.tag_id as id, mm.markername as name, mm.lat as lat, mm.lon as lon, ml.name layer, IFNULL(stat.count,0) as clicks from " . $wpdb->prefix . "leafletmapsmarker_markers mm
 		left outer join (select tag_id, count(*) as count from " . $wpdb->prefix . "pingeb_statistik group by tag_id) stat on mm.id = stat.tag_id
-		join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer where 1=1 ";
+		join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer where stat.tag_id is not null ";
 		
 	if($box != "-1"){
 		$sql .= "and mm.lat <= " . $wpdb->escape($box[0]) . " and mm.lon >= " . $wpdb->escape($box[1]) . " and mm.lat >= " . $wpdb->escape($box[2]) . " and mm.lon <= " . $wpdb->escape($box[3]) . " ";
@@ -150,6 +150,7 @@ function pingeb_api_get_tags($params){
 	$tags = $wpdb->get_results($sql);
 	foreach ( $tags as $tag ) {
 		$arr[$i] = array(
+		'id'=>$tag->id,
 		'name'=>$tag->name,
 		'layer'=>$tag->layer,
 		'clicks'=>$tag->clicks,
