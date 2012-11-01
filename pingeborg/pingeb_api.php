@@ -1,7 +1,6 @@
 <?php
 /*
-* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
-* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
+This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
 */
 
 //init function to call any api function
@@ -30,7 +29,7 @@ function pingeb_api($url){
 }
 
 //gets all downloads
-//accetps from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
+//accetps params layer, from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
 //Author: Bruno Hautzenberger
 //Date: 09.2012
 function pingeb_api_get_downloads($params){

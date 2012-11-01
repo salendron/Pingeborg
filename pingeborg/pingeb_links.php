@@ -69,9 +69,7 @@ function pingeb_redirect(){
 
 add_action('init','pingeb_redirect');
 
-//Sends a Tweet via OAuth API
-//Author: Bruno Hautzenberger
-//Date: 10.2012
+
 function sendTweet($tagId){
 	global $wpdb;
 	
@@ -101,9 +99,6 @@ function sendTweet($tagId){
 
 }
 
-//Simple PHP String StartsWith Function
-//Author: Bruno Hautzenberger
-//Date: 10.2012
 function startsWith($haystack, $needle)
 {
     $length = strlen($needle);
@@ -112,7 +107,7 @@ function startsWith($haystack, $needle)
 
 /**
 * post_tweet
-* Posting a tweet with OAuth
+* Example of posting a tweet with OAuth
 * Latest copy of this code: 
 * http://140dev.com/twitter-api-programming-tutorials/hello-twitter-oauth-php/
 * @author Adam Green <140dev@gmail.com>

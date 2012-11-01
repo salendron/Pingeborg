@@ -1,12 +1,5 @@
 <?php
-/*
-* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
-* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
-*/
 
-//Renders Download Counter Sidebar Widget
-//Author: Bruno Hautzenberger
-//Date: 10.2012
 function pingeb_counter_widget( $args ) { 
 	global $wpdb; 
 	
@@ -22,9 +15,7 @@ function pingeb_counter_widget( $args ) {
 	echo $args['after_widget'];
 }
 
-//Registers Download Counter Sidebar Widget
-//Author: Bruno Hautzenberger
-//Date: 10.2012
+
 function pingeb_counter_widget_register() {
   register_sidebar_widget( // Widget registrieren
     'Pingeborg Counter Widget', // Name des Widgets

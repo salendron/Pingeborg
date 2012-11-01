@@ -1,7 +1,6 @@
 <?php
 /*
-* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
-* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
+This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
 */
 
 //Returns all markers as JSON Array
@@ -85,7 +84,7 @@ function pingeb_get_tag_without_markers_callback() {
 	die();
 }
 
-//Assigns all downloads of a "broken" tag to another marker and removes old tag and urls
+//Assigns all downloads of a "broken" tag to another marker
 //Author: Bruno Hautzenberger
 //Date: 10.2012
 add_action('wp_ajax_pingeb_merge_tag', 'pingeb_merge_tag_callback');
@@ -138,7 +137,7 @@ function pingeb_merge_tag_callback() {
 	die();
 }
 
-//Deletes a "broken" tag and its downloads and urls
+//Deletes a "broken" tag and its downloads
 //Author: Bruno Hautzenberger
 //Date: 10.2012
 add_action('wp_ajax_pingeb_delete_broken_tag', 'pingeb_delete_broken_tag');

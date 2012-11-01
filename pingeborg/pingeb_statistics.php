@@ -1,11 +1,10 @@
 <?php
 /*
-* This work is licensed under the Creative Commons Attribution 3.0 Unported License. 
-* To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/.
+This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
 */
 
 //Shortcode [pingeb_heatmap]
-//Accepts Attr:  w=WIDTH h=HEIGHT zoom=ZOOMLEVEL downloads=DOWNLOADS TO SHOW, lat=latitude of mapcenter,lon=longitude of mapcenter
+//Accepts Attr:  w=WIDTH h=HEIGHT zoom=ZOOMLEVEL downloads=DOWNLOADS TO SHOW
 //Author: Bruno Hautzenberger
 //Date: 09.2012
 function pingeb_heatmap( $atts ) {	
@@ -82,7 +81,7 @@ function pingeb_heatmap( $atts ) {
 add_shortcode( 'pingeb_heatmap', 'pingeb_heatmap' );
 
 //Shortcode [pingeb_data_qr_nfc]
-//Accepts Attr:  w=Width, h=Height, radius=pie radius, center=center of pie chart in chart area, legendpos=north,south,east, west,colors=colors of chart parts
+//Accepts Attr:  w=Width, h=Height, colorNFC=Color of NFC Area as Hex, colorQR=Color of QR Area as Hex
 //Author: Bruno Hautzenberger
 //Date: 10.2012
 function pingeb_statistic_nfc_qr( $atts ) {
@@ -424,6 +423,7 @@ function pingeb_statistic_os( $atts ) {
 	return $chart;
 }
 add_shortcode( 'pingeb_data_os', 'pingeb_statistic_os' );
+
 
 add_filter('widget_text', 'do_shortcode');
 ?>
