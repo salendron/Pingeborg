@@ -12,6 +12,53 @@ function pingeb_redirect(){
 	
 	$req = trim($_SERVER["REQUEST_URI"], '/');
 
+	//check if it is the geofence url
+	if(startsWith($req,'geofence')){ //TODO add url as setting and check if geofence is active
+		echo "<script type='text/javascript' src='http://www.google.com/jsapi?key=AIzaSyCb74-cvjKlKPWo_4Azj36Y2tL3gmfEAQ0'></script>";
+		echo "<script language='javascript'>";
+		echo "
+			if(google.loader.ClientLocation)
+			{
+				visitor_lat = google.loader.ClientLocation.latitude;
+				visitor_lon = google.loader.ClientLocation.longitude;
+				alert(visitor_lat);
+				alert(visitor_lon);
+				location.href = '" . get_bloginfo('url') . "/xapi_geofence_callback?lat=' + visitor_lat + '&lon=' + visitor_lon;
+			}
+			else
+			{
+				alert('DOES NOT WORK!');
+			}
+		";
+		echo "</script>";
+		exit();
+	}
+	
+	//check if it is the geofence url
+	if(startsWith($req,'xapi_geofence_callback')){ //check if geofence is active
+		$sql_get_url = "
+		select url from " . $wpdb->prefix . "pingeb_url where tag_id = 
+		(
+		select t.id as tag_id from " . $wpdb->prefix . "pingeb_tag t, 
+		(
+		SELECT m.id as marker, ((ACOS(SIN(" . $_GET['lat'] . " * PI() / 180) * SIN(lat * PI() / 180) + COS(" . $_GET['lat'] . " * PI() / 180) * COS(lat * PI() / 180) * COS((" . $_GET['lon'] . " - lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance
+		FROM " . $wpdb->prefix . "leafletmapsmarker_markers m
+		HAVING distance <= (select geofence_radius from " . $wpdb->prefix . "pingeb_tag t where t.marker_id = m.id) / 1000
+		ORDER BY distance ASC LIMIT 1
+		) ma
+		where t.marker_id = ma.marker
+		) and url_type_id = 3
+		";
+		
+		$req = $wpdb->get_var( $wpdb->prepare( $sql_get_url ) );
+	
+		if(strlen($req) == 0) //no url found
+		{
+			echo "<meta http-equiv='refresh' content='0;url=" . get_bloginfo('url') . "' />";
+			exit();
+		}
+	}
+
 	//check if it is an api call
 	if(startsWith($req,'api/')){
 		header('content-type: application/json; charset=utf-8');
