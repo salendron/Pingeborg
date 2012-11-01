@@ -42,11 +42,10 @@ function pingeb_tag_admin(){
 			</select>&nbsp;
 			<input onclick="pingeb_batch_set_page(0)" type="button" id="pingeb_batch_assign_page" value="assign page">
 			
-			<!--
 			&nbsp;|&nbsp;
 			<input type="number" id="pingeb_batch_tag_radius" size="3" min="20" max="250" value="20">
 			<input onclick="pingeb_batch_set_radius(0)" type="button" id="pingeb_batch_assign_radius" value="assign geofence radius">
-			//-->
+			
 		</p>
 	</div>
 	<?php 

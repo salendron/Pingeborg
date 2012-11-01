@@ -16,7 +16,7 @@ function register_pingeb_twitter_admin() {
 }
 
 function pingeb_register_twitter_settings() {
-	//register our settings
+	//register twitter settings
 	register_setting( 'pingeb_twitter_settings_group', 'use_twitter' );
 	register_setting( 'pingeb_twitter_settings_group', 'consumer_key' );
 	register_setting( 'pingeb_twitter_settings_group', 'consumer_secret' );
@@ -24,6 +24,7 @@ function pingeb_register_twitter_settings() {
 	register_setting( 'pingeb_twitter_settings_group', 'user_secret' );
 	register_setting( 'pingeb_twitter_settings_group', 'tweet_text' );
 	
+	//register geofence settings
 	register_setting( 'pingeb_twitter_settings_group', 'use_geofence' );
 	register_setting( 'pingeb_twitter_settings_group', 'geofence_url' );
 	register_setting( 'pingeb_twitter_settings_group', 'no_tag_found_url' );
@@ -37,9 +38,9 @@ function pingeb_twitter_admin(){
 
 	//Page Header   
 	?> 
-	<div id="pingeb-admin-box" style="min-height:50px;">
-		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="height:50px;float:left;margin-right:5px;margin-bottom:5px;">
-		<h1 class="pingeb_headline">Setting</h1>
+	<div id="pingeb-admin-box" style="min-height:100px;">
+		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="height:100px;float:left;margin-right:5px;margin-bottom:5px;">
+		<h1 class="pingeb_headline">Settings</h1>
 		<p><b>Geofences</b> The system can also work with geofences. In this case your user navigate to a special url on their phone and if they are near a tag they will be directly redirected to the content. This only works with tags which have a gefence url assigned to them.</p>
 		<p><b>Twitter</b> The system can automaticaly send a tweet everytime a tags is used. If you want to use this feature you have to register an application for your twitter account on <a href="https://dev.twitter.com/">https://dev.twitter.com/</a>.</p>
 	</div>

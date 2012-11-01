@@ -117,8 +117,8 @@ function pingeb_save_tag(id){
 	pingeb_show_loading("saving tag...");
 	
 	//get filters
-	//var radius = document.getElementById('pingeb_tag_radius_' + id).value;
-	var radius = 20;
+	var radius = document.getElementById('pingeb_tag_radius_' + id).value;
+	//var radius = 20;
 	
 	var page = document.getElementById('pingeb_tag_page_' + id).value;
 	
@@ -152,7 +152,7 @@ function pingeb_build_tag_list(){
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Name</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Layer</div>";
 	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Position</div>";
-	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Geofence Radius</div>";
+	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Geofence Radius</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Url-Suffixes</div>";
 	html +="<div class='pingeb-table-header-col' style='border-left:1px solid #a4a4a4;'>Redirect to</div>";
 	html +="</div>";
@@ -167,10 +167,10 @@ function pingeb_build_tag_list(){
 		
 		//html +="<div class='pingeb-table-col-mm'>" + tags[i]['lat'] + " / " + tags[i]['lng'] + "</div>";
 
-		/*html +="<div class='pingeb-table-col'><nobr>";
+		html +="<div class='pingeb-table-col'><nobr>";
 		html +="<input type='number' id='pingeb_tag_radius_" + tags[i]['id'] + "' size='3' min='20' max='1000' value='" + tags[i]['geofence_radius'] + "'>m&nbsp;";
 		html +="<input onclick='pingeb_save_tag(" + tags[i]['id'] + ")' type='button' id='pingeb_set_radius_btn_" + tags[i]['id'] + "' value='set'>";
-		html +="</nobr></div>";*/
+		html +="</nobr></div>";
 
 		html +="<div class='pingeb-table-col'>";
 		html +="<nobr>";
@@ -227,7 +227,7 @@ function pingeb_build_tag_list(){
 	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 	//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 	//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 	html +="</div>";
