@@ -28,6 +28,7 @@ function pingeb_register_twitter_settings() {
 	register_setting( 'pingeb_twitter_settings_group', 'use_geofence' );
 	register_setting( 'pingeb_twitter_settings_group', 'geofence_url' );
 	register_setting( 'pingeb_twitter_settings_group', 'no_tag_found_url' );
+	register_setting( 'pingeb_twitter_settings_group', 'google_api_key' );
 }
 
 //Renders the Twitter Admin Page
@@ -66,6 +67,10 @@ function pingeb_twitter_admin(){
 			<tr valign="top">
 				<th scope="row"><b>Activate</b></th>
 				<td><input name="use_geofence" type="checkbox" value="1" <?php echo $geo_checked; ?> /> </td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Google Maps API Key</th>
+				<td><input name="google_api_key" type="text" size="70" value="<?php echo get_option('google_api_key'); ?>" /> </td>
 			</tr>
 			<tr valign="top">
 				<th scope="row">Geofence Url</th>

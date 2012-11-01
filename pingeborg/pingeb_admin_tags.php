@@ -23,11 +23,11 @@ function pingeb_tag_admin(){
 	?> 
 	<div id="pingeb-admin-box" style="min-height:200px;">
 		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="float:left;margin-right:5px;margin-bottom:5px;">
-		<h1 class="pingeb_headline">Pingeb.org Tags</h1>
-		<p><b>About Pingeb.org</b>&nbsp;Project Ingeborg is a project created by Georg Holzer and Bruno Hautzenberger, which aims to bring free digital content to public spaces like bus stops, cafes, shops and so on. The content is distributed using stickers (tags) with QR codes and NFC tags on it.</p>
-		<p><b>What you need and how it works</b>&nbsp;Before you start you have to install <a href="http://www.mapsmarker.com/" target="_blank">Leaflet Maps Marker</a> by <a href="http://www.harm.co.at/" target="_blank">Robert Harm</a>. This plugin allows you to create markers. These markers represent your tags and will be shown here in this list bellow. After you have created your markers you can start assigning urls to them and select a page this tag should point to.
-	<p><b>That's it?</b>&nbsp;Yes! If you have assigned all urls and pages to your tags, your system is ready to be used. To inform your users about what's going on, this plugin also contains a widget which shows a download counter and several visual statistics about the usage of your system. These statistics can be included to your pages using shortcode.</p>
-	</div>
+		<h1>pingeb.org tags</h1>
+		<p><strong><a href="http://pingeb.org/" target="_blank">Project Ingeborg</a></strong> was founded by Georg Holzer and Bruno Hautzenberger to promote local artists using stickers or posters equipped with NFC-tags and QR-codes. But you can do a lot of crazy stuff with it and distribute all kinds of digital content in your village, town or city. Check out our project documentation at <a href="http://pep.pingeb.org" target="_blank">pep.pingeb.org</a>.</p>
+		<p><strong>Requirements:</strong> You have to change the <a href="/wp-admin/options-permalink.php">permalink structure</a> to anything but the default and you need to install another plugin: <a href="http://wordpress.org/extend/plugins/leaflet-maps-marker/">Leaflet Maps Marker</a> by <a href="http://www.harm.co.at" target="_blank">Robert Harm</a>. It lets you create the locations that will show up here to assign URLs for NFC-tags and QR-codes.</p>
+		<p><strong>That's it?</strong> Yes! Now get awesome and do amazing stuff. We’d love to hear from you: <a href="mailto:mail@pingeb.org">mail@pingeb.org</a>.</p>
+		</div>
 	<?php 
 	//END Page Header
 

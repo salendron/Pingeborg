@@ -15,24 +15,23 @@ function pingeb_redirect(){
 	$use_geofence = get_option('use_geofence');
 	$geofence_url =  get_option('geofence_url');
 	$no_tag_found_url =  get_option('no_tag_found_url');
+	$google_api_key =  get_option('google_api_key');
 
 	if($use_geofence == 1){ // geofence
 		//check if it is the geofence url
 		if(startsWith($req,$geofence_url)){ 
-			echo "<script type='text/javascript' src='http://www.google.com/jsapi?key=AIzaSyCb74-cvjKlKPWo_4Azj36Y2tL3gmfEAQ0'></script>";
+			echo "<script type='text/javascript' src='http://www.google.com/jsapi?key=" . $google_api_key . "'></script>";
 			echo "<script language='javascript'>";
 			echo "
 				if(google.loader.ClientLocation)
 				{
 					visitor_lat = google.loader.ClientLocation.latitude;
 					visitor_lon = google.loader.ClientLocation.longitude;
-					alert(visitor_lat);
-					alert(visitor_lon);
 					location.href = '" . get_bloginfo('url') . "/xapi_geofence_callback?lat=' + visitor_lat + '&lon=' + visitor_lon;
 				}
 				else
 				{
-					alert('DOES NOT WORK!');
+					location.href = '" . $no_tag_found_url . "';
 				}
 			";
 			echo "</script>";
