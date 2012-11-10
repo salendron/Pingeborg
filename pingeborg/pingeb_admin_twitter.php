@@ -1,7 +1,15 @@
 <?php
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
-*/
+Copyright 2012 Bruno Hautzenberger
+
+This file is part of Pingeborg.
+
+Pingeborg is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published 
+by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Pingeborg is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Pingeborg. If not, see http://www.gnu.org/licenses/.
+*/ 
 
 //Add Tag Admin Page
 add_action("admin_menu", "register_pingeb_twitter_admin");
@@ -23,6 +31,10 @@ function pingeb_register_twitter_settings() {
 	register_setting( 'pingeb_twitter_settings_group', 'user_token' );
 	register_setting( 'pingeb_twitter_settings_group', 'user_secret' );
 	register_setting( 'pingeb_twitter_settings_group', 'tweet_text' );
+	register_setting( 'pingeb_twitter_settings_group', 'tweet_text2' );
+	register_setting( 'pingeb_twitter_settings_group', 'tweet_text3' );
+	register_setting( 'pingeb_twitter_settings_group', 'tweet_text4' );
+	register_setting( 'pingeb_twitter_settings_group', 'tweet_text5' );
 	
 	//register geofence settings
 	register_setting( 'pingeb_twitter_settings_group', 'use_geofence' );
@@ -104,8 +116,24 @@ function pingeb_twitter_admin(){
 				<td><input name="user_secret" type="text" size="70" value="<?php echo get_option('user_secret'); ?>" />  </td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><b>Tweet Text</b></th>
+				<th scope="row"><b>Tweet Text 1</b></th>
 				<td><input name="tweet_text" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text'); ?>" />  use %TagName% to include tag name into tweet.</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><b>Tweet Text 2</b></th>
+				<td><input name="tweet_text2" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text2'); ?>" />  use %TagName% to include tag name into tweet.</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><b>Tweet Text 3</b></th>
+				<td><input name="tweet_text3" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text3'); ?>" />  use %TagName% to include tag name into tweet.</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><b>Tweet Text 4</b></th>
+				<td><input name="tweet_text4" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text4'); ?>" />  use %TagName% to include tag name into tweet.</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><b>Tweet Text 5</b></th>
+				<td><input name="tweet_text5" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text5'); ?>" />  use %TagName% to include tag name into tweet.</td>
 			</tr>
 		</table>		
 		

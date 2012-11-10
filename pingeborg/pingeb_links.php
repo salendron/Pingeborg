@@ -1,8 +1,15 @@
 <?php
 /*
-This work is licensed under the Creative Commons Namensnennung-Nicht-kommerziell 3.0 Unported License. 
-To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
-*/
+Copyright 2012 Bruno Hautzenberger
+
+This file is part of Pingeborg.
+
+Pingeborg is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published 
+by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Pingeborg is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Pingeborg. If not, see http://www.gnu.org/licenses/.
+*/ 
 
 //Redirects the user to a content page if a pingeborg url is called and counts it
 //Author: Bruno Hautzenberger
@@ -131,7 +138,17 @@ function sendTweet($tagId){
 	$consumer_secret =  get_option('consumer_secret');
 	$user_token =  get_option('user_token');
 	$user_secret =  get_option('user_secret');
-	$tweet_text =  get_option('tweet_text');
+	
+	//get random tweet text
+	$tweet_texts =  array(
+					get_option('tweet_text'), 
+					get_option('tweet_text2'), 
+					get_option('tweet_text3'), 
+					get_option('tweet_text4'), 
+					get_option('tweet_text5')
+					);
+					
+	$tweet_text = $tweet_texts[array_rand($tweet_texts)];
 	
 	if($use_twitter == 1){
 		//select tag name
