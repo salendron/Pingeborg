@@ -156,7 +156,7 @@ function pingeb_build_tag_list(){
 	//header
 	html +="<div class='pingeb-table-header'>";
 	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;'>Id</div>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Maker Id</div>";
+	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Id</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Name</div>";
 	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Layer</div>";
 	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Position</div>";
