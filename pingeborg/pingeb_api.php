@@ -26,6 +26,10 @@ function pingeb_api($url){
 			$data = pingeb_api_get_tags($params);
 		} elseif($urlParts[1] === "downloads") {
 			$data = pingeb_api_get_downloads($params);
+		}  elseif($urlParts[1] === "tagsGeoJSON") {
+			$data = pingeb_geojson_api_get_tags($params);
+		}  elseif($urlParts[1] === "downloadsGeoJSON") {
+			$data = pingeb_geojson_api_get_downloads($params);
 		} else {
 			pingeb_send_404();
 		}
@@ -169,6 +173,70 @@ function pingeb_api_get_tags($params){
 	}
 
 	return $arr;
+}
+
+//gets all tags as GeoJSON
+//accetps params layer, box (lat1,lon1,lat2,lon2), order (name,clicks,layer), orderAsc (true, false)
+//Author: Bruno Hautzenberger
+//Date: 11.2012
+function pingeb_geojson_api_get_tags($params){
+	$tags = pingeb_api_get_tags($params);
+	
+	$features = array ();
+	
+	$i = 0;
+	foreach ( $tags as $tag ) {
+		$features[$i] = array(
+					"type" => "Feature",
+					"geometry" => array(
+							"type" => "Point",
+							"coordinates" => array($tag['lon'],$tag['lat'])
+							),
+					"properties" => array(
+								"id" => $tag['id'],
+								"name" => $tag['name'],
+								"layer" => $tag['layer'],
+								"clicks" => $tag['clicks'],
+								"lat" => $tag['lat'],
+								"lon" => $tag['lon']
+							)
+				);
+		$i++;
+	}
+	
+	return array("type" => "FeatureCollection", "features" => $features);
+}
+
+//gets all downloads as GeoJSON
+//accetps params layer, from (yyyy-mm-dd hh24:mi:ss), to (yyyy-mm-dd hh24:mi:ss), page (default = 1), pageSize (default = 100, max = 1000) 
+//Author: Bruno Hautzenberger
+//Date: 11.2012
+function pingeb_geojson_api_get_downloads($params){
+	$downloads = pingeb_api_get_downloads($params);
+	
+	$features = array ();
+	
+	$i = 0;
+	foreach ( $downloads as $download ) {
+		$features[$i] = array(
+					"type" => "Feature",
+					"geometry" => array(
+							"type" => "Point",
+							"coordinates" => array($download['lon'],$download['lat'])
+							),
+					"properties" => array(
+								"time" => $download['time'],
+								"type" => $download['type'],
+								"tagname" => $download['tagname'],
+								"os" => $download['os'],
+								"lat" => $download['lat'],
+								"lon" => $download['lon']
+							)
+				);
+		$i++;
+	}
+	
+	return array("type" => "FeatureCollection", "features" => $features);
 }
 
 //gets the query string url parts
