@@ -30,6 +30,8 @@ function pingeb_api($url){
 			$data = pingeb_geojson_api_get_tags($params);
 		}  elseif($urlParts[1] === "downloadsGeoJSON") {
 			$data = pingeb_geojson_api_get_downloads($params);
+		}  elseif($urlParts[1] === "systemStatistics") {
+			$data = pingeb_api_get_stats();
 		} else {
 			pingeb_send_404();
 		}
@@ -38,6 +40,33 @@ function pingeb_api($url){
 	}
 	
 	return json_encode($data);
+}
+
+function pingeb_api_get_stats() {
+	global $wpdb; 
+	
+	$downloads = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik" ) );
+	$downloadsToday = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik where curdate() = substr(visit_time,1,10)" ) );
+
+	//geet nfc qr relation
+	$sql = "select url_type as type, (count(url_type) / ((select count(*) from " . $wpdb->prefix . "pingeb_statistik where url_type in(1,2)) / 100)) as count
+		from " . $wpdb->prefix . "pingeb_statistik 
+		where url_type in(1,2) group by url_type"; 
+	$nfc = 0;
+	$qr = 0;
+	
+	$results = $wpdb->get_results($sql);
+	foreach ( $results as $result ) {
+		if($result->type == 1){
+			$nfc = $result->count;
+		}
+		
+		if($result->type == 2){
+			$qr = $result->count;
+		}
+	}
+	
+	return array("downloads" => $downloads, "downloadsToday" => $downloadsToday, "percentageQr" => $qr, "percentageNfc" => $nfc);
 }
 
 //gets all downloads
