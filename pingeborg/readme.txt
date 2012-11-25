@@ -4,7 +4,7 @@ Donate link:
 Tags: NFC, QR, geofence, location, GPS, stickers, posters
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 
+Stable tag: 1.0.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -76,19 +76,17 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 
 == Screenshots ==
 
-1. http://pingeb.org/pingeborg/wp-content/uploads/wordpress.org/plugin.png
-
-2. http://pingeb.org/pingeborg/wp-content/uploads/wordpress.org/tags.png
-
-3. http://pingeb.org/pingeborg/wp-content/uploads/wordpress.org/settings1.png
-
-4. http://pingeb.org/pingeborg/wp-content/uploads/wordpress.org/settings2.png
-
-5. http://pingeb.org/pingeborg/wp-content/uploads/wordpress.org/maintenance.png
+1. /assets/screenshot-1.png
+2. /assets/screenshot-2.png
+3. /assets/screenshot-3.png
+4. /assets/screenshot-4.png
+5. /assets/screenshot-5.png
 
 == Changelog ==
-
-
+1.0.0.4 
+New Feature: Number of deployed locations in widget.
+If no tags there are no tags yet a link to maps marker is shown.
+Tags are now also available as GeoJSON via API.
 
 == Upgrade notice ==
 
