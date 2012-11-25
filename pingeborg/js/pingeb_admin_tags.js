@@ -153,94 +153,98 @@ function pingeb_build_tag_list(){
 	var html = "";
 	var tagList = document.getElementById('pingeb_admin_tag_list');
 
-	//header
-	html +="<div class='pingeb-table-header'>";
-	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;'>Id</div>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Id</div>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Name</div>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Layer</div>";
-	//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Position</div>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Geofence Radius</div>";
-	html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Url-Suffixes</div>";
-	html +="<div class='pingeb-table-header-col' style='border-left:1px solid #a4a4a4;'>Redirect to</div>";
-	html +="</div>";
-
-	//tags
-	for(var i = 0; i < tags.length; i++){
-		html +="<div class='pingeb-table-row'>";
-		//html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['id'] + "</center></div>";
-		html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['marker_id'] + "</center></div>";
-		html +="<div class='pingeb-table-col-mm'>" + tags[i]['name'] + "</div>";
-		html +="<div class='pingeb-table-col-mm'>" + tags[i]['layer_name'] + "</div>";
-		
-		//html +="<div class='pingeb-table-col-mm'>" + tags[i]['lat'] + " / " + tags[i]['lng'] + "</div>";
-
-		html +="<div class='pingeb-table-col'><nobr>";
-		html +="<input type='number' id='pingeb_tag_radius_" + tags[i]['id'] + "' size='3' min='20' max='1000' value='" + tags[i]['geofence_radius'] + "'>m&nbsp;";
-		html +="<input onclick='pingeb_save_tag(" + tags[i]['id'] + ")' type='button' id='pingeb_set_radius_btn_" + tags[i]['id'] + "' value='set'>";
-		html +="</nobr></div>";
-
-		html +="<div class='pingeb-table-col'>";
-		html +="<nobr>";
-		html +="<select id='pingeb_tag_url_add_type_" + tags[i]['id'] + "' size='1'>";
-		for(var k = 0; k < url_types.length; k++){
-			html += "<option value='" + url_types[k]['id'] + "'>" + url_types[k]['name'] + "</option>";
-		}
-		html +="</select>";
-		html +="&nbsp;<input type='text' size='12'  id='pingeb_tag_new_url_" + tags[i]['id'] + "'>";
-		html +="&nbsp;<input onclick='pingeb_random_url(" + tags[i]['id'] + ")'type='button' id='pingeb_tag_new_url_btn_" + tags[i]['id'] + "' value='random url'>";
-		html +="&nbsp;<input onclick='pingeb_add_url(" + tags[i]['id'] + "," + tags[i]['marker_id'] + ")' type='button' id='pingeb_tag_url_add_" + tags[i]['id'] + "' value='add'>";
-		html +="</nobr>";
-		
-		html +="<ul id='pingeb_tag_urls_" + tags[i]['id'] + "' style='list-style-type:none;'>";
-		for(var k = 0; k < tags[i]['urls'].length; k++){
-			html +="<li id='pingeb_tag_url_" + tags[i]['urls'][k]['id'] + "'>";
+	if(tags.length > 0){
+		//header
+		html +="<div class='pingeb-table-header'>";
+		//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;'>Id</div>";
+		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Id</div>";
+		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Marker Name</div>";
+		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Layer</div>";
+		//html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Position</div>";
+		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Geofence Radius</div>";
+		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Url-Suffixes</div>";
+		html +="<div class='pingeb-table-header-col' style='border-left:1px solid #a4a4a4;'>Redirect to</div>";
+		html +="</div>";
+	
+		//tags
+		for(var i = 0; i < tags.length; i++){
+			html +="<div class='pingeb-table-row'>";
+			//html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['id'] + "</center></div>";
+			html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['marker_id'] + "</center></div>";
+			html +="<div class='pingeb-table-col-mm'>" + tags[i]['name'] + "</div>";
+			html +="<div class='pingeb-table-col-mm'>" + tags[i]['layer_name'] + "</div>";
 			
-			if(tags[i]['urls'][k]['type'] === "QR"){
-				html +="<div style='width:30%;float:left;text-align:left;'>";
-				html +="<a href=javascript:pingeb_show_qr('" + baseUrl + "/" + tags[i]['urls'][k]['url'] + "');>" +  tags[i]['urls'][k]['type'] + "</a>";
-				html +="</div>";
-			} else {
-				html +="<div style='width:30%;float:left;text-align:left;'>" + tags[i]['urls'][k]['type'] + "</div>";
+			//html +="<div class='pingeb-table-col-mm'>" + tags[i]['lat'] + " / " + tags[i]['lng'] + "</div>";
+	
+			html +="<div class='pingeb-table-col'><nobr>";
+			html +="<input type='number' id='pingeb_tag_radius_" + tags[i]['id'] + "' size='3' min='20' max='1000' value='" + tags[i]['geofence_radius'] + "'>m&nbsp;";
+			html +="<input onclick='pingeb_save_tag(" + tags[i]['id'] + ")' type='button' id='pingeb_set_radius_btn_" + tags[i]['id'] + "' value='set'>";
+			html +="</nobr></div>";
+	
+			html +="<div class='pingeb-table-col'>";
+			html +="<nobr>";
+			html +="<select id='pingeb_tag_url_add_type_" + tags[i]['id'] + "' size='1'>";
+			for(var k = 0; k < url_types.length; k++){
+				html += "<option value='" + url_types[k]['id'] + "'>" + url_types[k]['name'] + "</option>";
 			}
+			html +="</select>";
+			html +="&nbsp;<input type='text' size='12'  id='pingeb_tag_new_url_" + tags[i]['id'] + "'>";
+			html +="&nbsp;<input onclick='pingeb_random_url(" + tags[i]['id'] + ")'type='button' id='pingeb_tag_new_url_btn_" + tags[i]['id'] + "' value='random url'>";
+			html +="&nbsp;<input onclick='pingeb_add_url(" + tags[i]['id'] + "," + tags[i]['marker_id'] + ")' type='button' id='pingeb_tag_url_add_" + tags[i]['id'] + "' value='add'>";
+			html +="</nobr>";
 			
-			html +="<div style='width:40%;float:left;text-align:left;'><b>/" + tags[i]['urls'][k]['url'] + "</b></div>";
-			html +="<div style='width:30%;float:left;text-align:left;'><a href='javascript:pingeb_remove_url(" + tags[i]['urls'][k]['id'] + "," + tags[i]['id'] + ");'><b>remove</b></a></div>";
-			html +="</li>";
-		}
-		html +="</ul>";
-		
-		html +="</div>";
-
-		html +="<div class='pingeb-table-col'>";
-		html +="<select id='pingeb_tag_page_" + tags[i]['id'] + "' onchange='pingeb_save_tag(" + tags[i]['id'] + ")' size='1'>";
-		html +="<option value='-1'>Select a page</option>";
-		for(var j = 0; j < pages.length; j++){
-			if(tags[i]['page_id'] == pages[j]['id']){
-				html += "<option value='" + pages[j]['id'] + "' selected>" + pages[j]['title'] + "</option>";
-			} else {
-				html += "<option value='" + pages[j]['id'] + "'>" + pages[j]['title'] + "</option>";
+			html +="<ul id='pingeb_tag_urls_" + tags[i]['id'] + "' style='list-style-type:none;'>";
+			for(var k = 0; k < tags[i]['urls'].length; k++){
+				html +="<li id='pingeb_tag_url_" + tags[i]['urls'][k]['id'] + "'>";
+				
+				if(tags[i]['urls'][k]['type'] === "QR"){
+					html +="<div style='width:30%;float:left;text-align:left;'>";
+					html +="<a href=javascript:pingeb_show_qr('" + baseUrl + "/" + tags[i]['urls'][k]['url'] + "');>" +  tags[i]['urls'][k]['type'] + "</a>";
+					html +="</div>";
+				} else {
+					html +="<div style='width:30%;float:left;text-align:left;'>" + tags[i]['urls'][k]['type'] + "</div>";
+				}
+				
+				html +="<div style='width:40%;float:left;text-align:left;'><b>/" + tags[i]['urls'][k]['url'] + "</b></div>";
+				html +="<div style='width:30%;float:left;text-align:left;'><a href='javascript:pingeb_remove_url(" + tags[i]['urls'][k]['id'] + "," + tags[i]['id'] + ");'><b>remove</b></a></div>";
+				html +="</li>";
 			}
+			html +="</ul>";
+			
+			html +="</div>";
+	
+			html +="<div class='pingeb-table-col'>";
+			html +="<select id='pingeb_tag_page_" + tags[i]['id'] + "' onchange='pingeb_save_tag(" + tags[i]['id'] + ")' size='1'>";
+			html +="<option value='-1'>Select a page</option>";
+			for(var j = 0; j < pages.length; j++){
+				if(tags[i]['page_id'] == pages[j]['id']){
+					html += "<option value='" + pages[j]['id'] + "' selected>" + pages[j]['title'] + "</option>";
+				} else {
+					html += "<option value='" + pages[j]['id'] + "'>" + pages[j]['title'] + "</option>";
+				}
+			}
+			html +="</select>";
+			html +="</div>";
+	
+			html +="</div>";
 		}
-		html +="</select>";
+	
+		//table footer
+		html +="<div class='pingeb-table-header'>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
+		//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 		html +="</div>";
-
-		html +="</div>";
+	
+		tagList.innerHTML = html;
+	} else {
+		tagList.innerHTML = "<p style='margin:10px;'><b>No marker yet created. Go to <a href='" + baseUrl + "/wp-admin/admin.php?page=leafletmapsmarker_marker'>here</a> to create one!</b></p>";
 	}
-
-	//table footer
-	html +="<div class='pingeb-table-header'>";
-	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	//html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
-	html +="</div>";
-
-	tagList.innerHTML = html;
 }
 
 function pingeb_add_url(id, tagid){

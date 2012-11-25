@@ -54,7 +54,8 @@ function pingeb_twitter_admin(){
 	<div id="pingeb-admin-box" style="min-height:100px;">
 		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="height:100px;float:left;margin-right:5px;margin-bottom:5px;">
 		<h1 class="pingeb_headline">Settings</h1>
-		<p><b>Geofences</b> The system can also work with geofences. In this case your user navigate to a special url on their phone and if they are near a tag they will be directly redirected to the content. This only works with tags which have a gefence url assigned to them.</p>
+		<p><b>Geofences</b> The system can also work with geofences. In this case your user navigate to a special url on their phone and if they are near a tag they will be directly redirected to the content. This only works with tags which have a gefence url assigned to them.<br>
+		Geofences require a Google Maps API Key. If you do not have an API Key now you get get one <a href="https://developers.google.com/maps/signup?hl=de" target="_blank">here</a>.</p>
 		<p><b>Twitter</b> The system can automaticaly send a tweet everytime a tags is used. If you want to use this feature you have to register an application for your twitter account on <a href="https://dev.twitter.com/">https://dev.twitter.com/</a>.</p>
 	</div>
 	<?php 
@@ -108,11 +109,11 @@ function pingeb_twitter_admin(){
 				<td><input name="consumer_secret" type="text" size="70" value="<?php echo get_option('consumer_secret'); ?>" />  </td>
 			</tr>
 			<tr valign="top">
-				<th scope="row">User Token</th>
+				<th scope="row">Access Token</th>
 				<td><input name="user_token" type="text" size="70" value="<?php echo get_option('user_token'); ?>" /> </td>
 			</tr>
 			<tr valign="top">
-				<th scope="row">User Secret</th>
+				<th scope="row">Access Token Secret</th>
 				<td><input name="user_secret" type="text" size="70" value="<?php echo get_option('user_secret'); ?>" />  </td>
 			</tr>
 			<tr valign="top">
