@@ -16,12 +16,14 @@ function pingeb_counter_widget( $args ) {
 	
 	$downloads = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik" ) );
 	$downloadsToday = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik where curdate() = substr(visit_time,1,10)" ) );
-
+	$tags = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_tag" ) );
+	
 	//Render Widget
 	echo $args['before_widget'];
 	echo $args['before_title'].'Content Counter'.$args['after_title'];
 	echo "<p><font size='16'>" . $downloadsToday . "</font> Downloads heute</p>";
 	echo "<p><font size='16'>" . $downloads . "</font> Downloads insgesamt</p>";
+	echo "<p><font size='16'>" . $tags . "</font> Orte</p>";
 	echo "<br>";
 	echo $args['after_widget'];
 }
