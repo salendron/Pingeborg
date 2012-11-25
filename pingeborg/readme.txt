@@ -76,7 +76,7 @@ If you use the plugin, we are curious about your opinion and use case. Please, s
 
 == Frequently asked questions ==
 
-= Q: How much would it cost to do a project like yours in my city/town? =
+= Q: How much would it cost to distribute stickers in your town/city? =
 A: If you roll out every location with a sticker and an NFC-tag, we estimate the material cost to be around 300 Euro/100,000 inhabitants for one year.
 
 = Q: But what about really big cities? =
