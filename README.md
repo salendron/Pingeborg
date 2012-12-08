@@ -2,7 +2,6 @@ Pingeborg
 =========
 
 A Wordpress plugin to host your own Pingeborg system. Read more on http://pingeb.org.
-
 The plugin is available at http://wordpress.org/extend/plugins/pingeborg/
 
 Project Ingeborg is proudly supported by the Austrian Internet Foundation IPA (http://www.nic.at/ipa)
