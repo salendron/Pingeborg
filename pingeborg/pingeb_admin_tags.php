@@ -39,6 +39,16 @@ function pingeb_tag_admin(){
 	<?php 
 	//END Page Header
 
+  If (!is_plugin_active('leaflet-maps-marker/leaflet-maps-marker.php')) {
+  	  //Maps MArker Check   
+				?>
+				  <div id="pingeb-admin-box">
+		      <p style="color:red;"><strong>WARNING!</strong><br>Leaflet Maps Marker is not installed or not activated! This plugin is necessary for pingeb.org to work! 
+		      Leaflet Maps Marker is available here -><a href="http://wordpress.org/extend/plugins/leaflet-maps-marker/">http://wordpress.org/extend/plugins/leaflet-maps-marker/</a>.</p>
+		    </div>
+				<?php 
+  }
+
 	//Batch Actions
 	?> 
 	<div id="pingeb-admin-box">
