@@ -128,7 +128,8 @@ if(is_admin()){
 	
 	//Tag Maintenance
 	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance.php');
-	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php');
+	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php'); 
+	require_once(dirname(__FILE__) . '/pingeb_info.php');
 }
 //common js
 function pingeb_scripts() {
