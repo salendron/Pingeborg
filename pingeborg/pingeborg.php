@@ -3,8 +3,8 @@
 /*
 Plugin Name: Pingeborg
 Plugin URI: http://pingeb.org
-Description: Pingeb.org as a plugin.
-Version: 1.0.0.4
+Description: Project pingeb.org
+Version: 1.0.0.5
 Author: Bruno Hautzenberger
 Author URI: http://the-engine.at
 License: 
