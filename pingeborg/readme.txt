@@ -100,10 +100,17 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+1.0.0.5
+New Feature: The plugin now detects if Leaflet Maps Marker is installed. If it isn´t the plugin shows a warning.
+New Feature: Info page with license info of  3rd party libraries and infos about supporters.
+Bug Fix: NFC vs QR chart now works a bit better.  (still not perfect yet).
+Fix: Plugin text 
+
 1.0.0.4 
 New Feature: Number of deployed locations in widget.
 If no tags there are no tags yet a link to maps marker is shown.
 Tags are now also available as GeoJSON via API.
 
 == Other notes ==
-Nothing yet.
+= Thank You =
+The project was supported by the Internet Foundation Austria (IPA). More at netidee.at.

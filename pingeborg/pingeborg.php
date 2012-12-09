@@ -3,7 +3,7 @@
 /*
 Plugin Name: Pingeborg
 Plugin URI: http://pingeb.org
-Description: Project pingeb.org
+Description: A plugin that connects the real world with your great content on WordPress using NFC, QR and geofences.
 Version: 1.0.0.5
 Author: Bruno Hautzenberger
 Author URI: http://the-engine.at
