@@ -179,7 +179,7 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 		'colorNFC' => '#bdcc00'
 	), $atts ) );
 
-	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from " . $wpdb->prefix . "pingeb_statistik where month(visit_time) != month(now()) group by month(visit_time), url_type order by month(visit_time)"; 
+	$sql = "select month(visit_time) as month, url_type as type, count(url_type) as count from " . $wpdb->prefix . "pingeb_statistik group by month(visit_time), url_type order by month(visit_time)"; 
 	
 	//select tags
 	$arr = array ();
@@ -256,7 +256,7 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
                     x[i] = i;
                 }
 
-				r.linechart(0, 0, {$w}, {$h}-10, x, [$nfcData,$qrData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorNFC}', 'transparent'] });
+				r.linechart(0, -30, {$w}, {$h}+20, x, [$nfcData,$qrData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorNFC}', 'transparent'] });
 
 				//qr
 				var r2 = Raphael('chartNfcQrByDateQr'),
@@ -268,8 +268,9 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
                     x[i] = i;
                 }
 
-				r2.linechart(0, 0, {$w}, {$h}-10, x, [$qrData,$nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}', 'transparent'] });
+				r2.linechart(0, 0, {$w}, {$h}+20, x, [$qrData,$nfcData],{ axis: '0 0 0 0',nostroke: false, shade: true,smooth: true,'colors':['{$colorQR}', 'transparent'] });
 			}
+			
 			
 			function drawAxis() {
 			 //AXIS
@@ -294,7 +295,7 @@ function pingeb_statistic_nfc_qr_by_month( $atts ) {
 			 ctx.font='9px Arial';
 			 
 			 for(var i = 0; i < 10; i++){
-				ctx.fillText(((10 - i) * 10) + '%', 0, ({$h} / 10) * i);
+				  ctx.fillText(((10 - i) * 10) + '%', 0, (({$h} - 20) / 10) * i);
 			 }
 			 
 			 //Legend
