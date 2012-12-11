@@ -33,7 +33,7 @@ function pingeb_db_install() {
    id mediumint(9) NOT NULL AUTO_INCREMENT,
    marker_id mediumint(9) NOT NULL,
    geofence_radius tinyint NOT NULL,
-   page_id tinyint NOT NULL,
+   page_id int NOT NULL,
    UNIQUE KEY id (id)
    );";
    
