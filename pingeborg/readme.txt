@@ -6,7 +6,7 @@ Author URI:        http://pingeb.org
 Author:            Projekt Ingeborg
 Requires at least: 3.0
 Tested up to:      3.5beta2
-Stable tag:        1.0.0.4
+Stable tag:        1.0.0.7
 License:           GPLv3 or later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -100,6 +100,12 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+1.0.0.7
+Bug fix: Bigger data type for page ids on db.
+
+1.0.0.6
+Just minor bug fixes.
+
 1.0.0.5
 New Feature: The plugin now detects if Leaflet Maps Marker is installed. If it isn´t the plugin shows a warning.
 New Feature: Info page with license info of  3rd party libraries and infos about supporters.
