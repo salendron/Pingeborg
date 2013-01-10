@@ -175,7 +175,7 @@ function pingeb_api_get_tags($params){
 	from " . $wpdb->prefix . "pingeb_tag t, " . $wpdb->prefix . "leafletmapsmarker_markers mm
 	left outer join (select tag_id, count(*) as count from " . $wpdb->prefix . "pingeb_statistik group by tag_id) stat on  stat.tag_id = mm.id
 	join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer
-	where t.marker_id = mm.id";
+	where t.marker_id = mm.id ";
 		
 	if($box != "-1"){
 		$sql .= "and mm.lat <= " . $wpdb->escape($box[0]) . " and mm.lon >= " . $wpdb->escape($box[1]) . " and mm.lat >= " . $wpdb->escape($box[2]) . " and mm.lon <= " . $wpdb->escape($box[3]) . " ";
