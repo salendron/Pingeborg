@@ -170,10 +170,12 @@ function pingeb_api_get_tags($params){
 			}
 	}
 
-	//build statement
-	$sql = "select stat.tag_id as id, mm.markername as name, mm.lat as lat, mm.lon as lon, ml.name layer, IFNULL(stat.count,0) as clicks from " . $wpdb->prefix . "leafletmapsmarker_markers mm
-		left outer join (select tag_id, count(*) as count from " . $wpdb->prefix . "pingeb_statistik group by tag_id) stat on mm.id = stat.tag_id
-		join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer where stat.tag_id is not null ";
+	//build statement		
+	$sql = "select t.id as id, mm.markername as name, mm.lat as lat, mm.lon as lon, ml.name layer, IFNULL(stat.count,0) as clicks
+	from " . $wpdb->prefix . "pingeb_tag t, " . $wpdb->prefix . "leafletmapsmarker_markers mm
+	left outer join (select tag_id, count(*) as count from " . $wpdb->prefix . "pingeb_statistik group by tag_id) stat on  stat.tag_id = mm.id
+	join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer
+	where t.marker_id = mm.id";
 		
 	if($box != "-1"){
 		$sql .= "and mm.lat <= " . $wpdb->escape($box[0]) . " and mm.lon >= " . $wpdb->escape($box[1]) . " and mm.lat >= " . $wpdb->escape($box[2]) . " and mm.lon <= " . $wpdb->escape($box[3]) . " ";

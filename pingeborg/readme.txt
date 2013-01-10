@@ -6,7 +6,7 @@ Author URI:        http://pingeb.org
 Author:            Projekt Ingeborg
 Requires at least: 3.0
 Tested up to:      3.5beta2
-Stable tag:        1.0.0.8
+Stable tag:        1.0.0.9
 License:           GPLv3 or later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -100,6 +100,11 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+1.0.0.9
+Change: API call /api/tags now also shows tags without downloads.
+Change: Google Maps API Key removed from settings page. 
+Bug fix: Geofences work now even with Wordpress 3.5 and do not require a Google API Key anymore. 
+
 1.0.0.8
 Bug fix: Fixed warning at wpdb prepare (Wordpress 3.5)
 

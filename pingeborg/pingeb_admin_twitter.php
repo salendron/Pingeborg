@@ -40,7 +40,6 @@ function pingeb_register_twitter_settings() {
 	register_setting( 'pingeb_twitter_settings_group', 'use_geofence' );
 	register_setting( 'pingeb_twitter_settings_group', 'geofence_url' );
 	register_setting( 'pingeb_twitter_settings_group', 'no_tag_found_url' );
-	register_setting( 'pingeb_twitter_settings_group', 'google_api_key' );
 }
 
 //Renders the Twitter Admin Page
@@ -55,7 +54,6 @@ function pingeb_twitter_admin(){
 		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="height:100px;float:left;margin-right:5px;margin-bottom:5px;">
 		<h1 class="pingeb_headline">Settings</h1>
 		<p><b>Geofences</b> The system can also work with geofences. In this case your user navigate to a special url on their phone and if they are near a tag they will be directly redirected to the content. This only works with tags which have a gefence url assigned to them.<br>
-		Geofences require a Google Maps API Key. If you do not have an API Key now you get get one <a href="https://developers.google.com/maps/signup?hl=de" target="_blank">here</a>.</p>
 		<p><b>Twitter</b> The system can automaticaly send a tweet everytime a tags is used. If you want to use this feature you have to register an application for your twitter account on <a href="https://dev.twitter.com/">https://dev.twitter.com/</a>.</p>
 	</div>
 	<?php 
@@ -80,10 +78,6 @@ function pingeb_twitter_admin(){
 			<tr valign="top">
 				<th scope="row"><b>Activate</b></th>
 				<td><input name="use_geofence" type="checkbox" value="1" <?php echo $geo_checked; ?> /> </td>
-			</tr>
-			<tr valign="top">
-				<th scope="row">Google Maps API Key</th>
-				<td><input name="google_api_key" type="text" size="70" value="<?php echo get_option('google_api_key'); ?>" /> </td>
 			</tr>
 			<tr valign="top">
 				<th scope="row">Geofence Url</th>

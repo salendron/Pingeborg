@@ -26,22 +26,24 @@ function pingeb_redirect(){
 
 	if($use_geofence == 1){ // geofence
 		//check if it is the geofence url
-		if(startsWith($req,$geofence_url)){ 
-			echo "<script type='text/javascript' src='http://www.google.com/jsapi?key=" . $google_api_key . "'></script>";
-			echo "<script language='javascript'>";
+		if(startsWith($req,$geofence_url)){ 			
 			echo "
-				if(google.loader.ClientLocation)
+				<script>
+				if (navigator.geolocation)
 				{
-					visitor_lat = google.loader.ClientLocation.latitude;
-					visitor_lon = google.loader.ClientLocation.longitude;
-					location.href = '" . get_bloginfo('url') . "/xapi_geofence_callback?lat=' + visitor_lat + '&lon=' + visitor_lon;
-				}
-				else
-				{
+					navigator.geolocation.getCurrentPosition(showPosition);
+				} else {
+					alert('Geolocation is not supported by this browser.');
 					location.href = '" . $no_tag_found_url . "';
 				}
+				
+				function showPosition(position){
+					location.href = '" . get_bloginfo('url') . "/xapi_geofence_callback?lat=' + position.coords.latitude +
+					'&lon=' + position.coords.longitude;
+				}
+				</script>
 			";
-			echo "</script>";
+			
 			exit();
 		}
 		
@@ -61,7 +63,7 @@ function pingeb_redirect(){
 			) and url_type_id = 3
 			";
 			
-			$req = $wpdb->get_var( $wpdb->prepare( $sql_get_url ) );
+			$req = $wpdb->get_var( $wpdb->prepare( $sql_get_url, null ) );
 		
 			if(strlen($req) == 0) //no url found
 			{
