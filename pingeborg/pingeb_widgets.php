@@ -30,11 +30,14 @@ function pingeb_counter_widget( $args ) {
 
 
 function pingeb_counter_widget_register() {
-  register_sidebar_widget( // Widget registrieren
-    'Pingeborg Counter Widget', // Name des Widgets
-    'pingeb_counter_widget'
-  );
+	wp_register_sidebar_widget(
+		'pingeb_counter_widget',        // your unique widget id
+		'Pingeborg Counter Widget',          // widget name
+		'',  // callback function
+		array(                  // options
+			'description' => 'Showing pingeb.org statistics'
+		)
+	);
 }
 add_action( 'plugins_loaded', 'pingeb_counter_widget_register' );
-
 ?>
