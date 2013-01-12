@@ -49,7 +49,22 @@ function pingeb_twitter_admin(){
 	//wp_enqueue_script( 'pingeb_admin_tags', plugins_url('/js/pingeb_admin_tags.js', __FILE__) , array('jquery'), null, true );
 
 	//Page Header   
-	?> 
+	?>
+	<script language="JavaScript">
+	 function checkField(field,maxLength){
+	    var text = field.value;
+	    
+	    text = text.replace("\'", "");
+	    text = text.replace("\"", "");
+	    
+	    if(maxLength > 0){
+	       text = text.substring(0,maxLength);
+	    }
+	    
+	    field. value = text;
+	 }
+	</script>
+	
 	<div id="pingeb-admin-box" style="min-height:100px;">
 		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="height:100px;float:left;margin-right:5px;margin-bottom:5px;">
 		<h1 class="pingeb_headline">Settings</h1>
@@ -112,23 +127,23 @@ function pingeb_twitter_admin(){
 			</tr>
 			<tr valign="top">
 				<th scope="row"><b>Tweet Text 1</b></th>
-				<td><input name="tweet_text" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text'); ?>" />  use %TagName% to include tag name into tweet.</td>
+				<td><textarea name="tweet_text" onkeyup="checkField(this,140)" cols="70" rows="2" ><?php echo get_option('tweet_text'); ?></textarea> use %TagName% to include tag name into tweet.</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><b>Tweet Text 2</b></th>
-				<td><input name="tweet_text2" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text2'); ?>" />  use %TagName% to include tag name into tweet.</td>
+				<td><textarea name="tweet_text2" onkeyup="checkField(this,140)" cols="70" rows="2" ><?php echo get_option('tweet_text2'); ?></textarea> use %TagName% to include tag name into tweet.</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><b>Tweet Text 3</b></th>
-				<td><input name="tweet_text3" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text3'); ?>" />  use %TagName% to include tag name into tweet.</td>
+				<td><textarea name="tweet_text3" onkeyup="checkField(this,140)" cols="70" rows="2" ><?php echo get_option('tweet_text3'); ?></textarea> use %TagName% to include tag name into tweet.</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><b>Tweet Text 4</b></th>
-				<td><input name="tweet_text4" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text4'); ?>" />  use %TagName% to include tag name into tweet.</td>
+				<td><textarea name="tweet_text4" onkeyup="checkField(this,140)" cols="70" rows="2" ><?php echo get_option('tweet_text4'); ?></textarea> use %TagName% to include tag name into tweet.</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><b>Tweet Text 5</b></th>
-				<td><input name="tweet_text5" type="text" size="70" maxSize="100" value="<?php echo get_option('tweet_text5'); ?>" />  use %TagName% to include tag name into tweet.</td>
+				<td><textarea name="tweet_text5" onkeyup="checkField(this,140)" cols="70" rows="2" ><?php echo get_option('tweet_text5'); ?></textarea> use %TagName% to include tag name into tweet.</td>
 			</tr>
 		</table>		
 		

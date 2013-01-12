@@ -30,12 +30,12 @@ function pingeb_tag_admin(){
 	//Page Header   
 	?> 
 	<div id="pingeb-admin-box" style="min-height:200px;">
-		<img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="float:left;margin-right:5px;margin-bottom:5px;">
-		<h1>pingeb.org tags</h1>
-		<p><strong><a href="http://pingeb.org/" target="_blank">Project Ingeborg</a></strong> was founded by Georg Holzer and Bruno Hautzenberger to promote local artists using stickers or posters equipped with NFC-tags and QR-codes. But you can do a lot of crazy stuff with it and distribute all kinds of digital content in your village, town or city. Check out our project documentation at <a href="http://pep.pingeb.org" target="_blank">pep.pingeb.org</a>.</p>
-		<p><strong>Requirements:</strong> You have to change the <a href="/wp-admin/options-permalink.php">permalink structure</a> to anything but the default and you need to install another plugin: <a href="http://wordpress.org/extend/plugins/leaflet-maps-marker/">Leaflet Maps Marker</a> by <a href="http://www.harm.co.at" target="_blank">Robert Harm</a>. It lets you create the locations that will show up here to assign URLs for NFC-tags and QR-codes.</p>
-		<p><strong>That's it?</strong> Yes! Now get awesome and do amazing stuff. We’d love to hear from you: <a href="mailto:mail@pingeb.org">mail@pingeb.org</a>.</p>
-		</div>
+	       <img src="<?php echo plugins_url("pingeborg/img/logo.png"); ?>" style="float:left;margin-right:5px;margin-bottom:5px;">
+	       <h1>pingeb.org tags</h1>
+	       <p><strong><a href="http://pingeb.org/" target="_blank">Project Ingeborg</a></strong> was founded by Georg Holzer and Bruno Hautzenberger to promote local artists using stickers or posters equipped with NFC-tags and QR-codes. But you can do a lot of crazy stuff with it and distribute all kinds of digital content in your village, town or city. Check out our project documentation at <a href="http://pep.pingeb.org" target="_blank">pep.pingeb.org</a>.</p>
+	       <p><strong>Requirements:</strong> You have to change the <a href="/wp-admin/options-permalink.php">permalink structure</a> to anything but the default and you need to install another plugin: <a href="http://wordpress.org/extend/plugins/leaflet-maps-marker/">Leaflet Maps Marker</a> by <a href="http://www.harm.co.at" target="_blank">Robert Harm</a>. It lets you create the locations that will show up here to assign URLs for NFC-tags and QR-codes.</p>
+	       <p><strong>That's it?</strong> Yes! Now get awesome and do amazing stuff. We’d love to hear from you: <a href="mailto:mail@pingeb.org">mail@pingeb.org</a>.</p>	
+	 </div>
 	<?php 
 	//END Page Header
 
@@ -64,6 +64,13 @@ function pingeb_tag_admin(){
 			<input type="number" id="pingeb_batch_tag_radius" size="3" min="20" max="250" value="20">
 			<input onclick="pingeb_batch_set_radius(0)" type="button" id="pingeb_batch_assign_radius" value="assign geofence radius">
 			
+		</p>
+		
+		<h3 class="pingeb_headline">Generate Urls</h3>
+		<p>
+			<input onclick="pingeb_batch_generateUrls_withType(0,1)" type="button" id="pingeb_batch_urls" value="auto generate missing NFC urls">&nbsp;
+			<input onclick="pingeb_batch_generateUrls_withType(0,2)" type="button" id="pingeb_batch_urls" value="auto generate missing QR urls">&nbsp;
+			<input onclick="pingeb_batch_generateUrls_withType(0,3)" type="button" id="pingeb_batch_urls" value="auto generate missing Geofence urls">&nbsp;
 		</p>
 	</div>
 	<?php 
@@ -94,6 +101,17 @@ function pingeb_tag_admin(){
 	</div>
 	<?php 
 	//END Tag filter
+	
+	//Export
+	?> 
+	<div id="pingeb-admin-box">
+		<h2 class="pingeb_headline">Export</h2>
+		<p>
+			<a href="#" id="pingeb_export_tags"  download="tags.csv">Export selected tags to csv</a>
+		</p>
+	</div>
+	<?php 
+	//END Export
 
 	//Tag list
 	?> 

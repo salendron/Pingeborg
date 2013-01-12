@@ -1,14 +1,14 @@
 <?php
 //-----------------------------------------------------------------------------
 /*
-Plugin Name: Pingeborg
+Plugin Name: pingeb.org
 Plugin URI: http://pingeb.org
 Description: A plugin that connects the real world with your great content on WordPress using NFC, QR and geofences.
-Version: 1.0.0.91
-Author: Bruno Hautzenberger
-Author URI: http://the-engine.at
+Version: 1.0.1.0
+Author: pingeb.org
+Author URI: http://pingeb.org
 License: 
-This file is part of Pingeborg.
+This file is part of pingeb.org.
 Pingeborg is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published 
 by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 Pingeborg is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
@@ -156,4 +156,50 @@ wp_enqueue_script( 'raphael_pie', plugins_url('/js/g.pie.js', __FILE__) , array(
 
 //widgets
 require_once(dirname(__FILE__) . '/pingeb_widgets.php');
+
+//admin bar
+add_action('admin_bar_menu', 'pingeb_add_toolbar', 100);
+function pingeb_add_toolbar($admin_bar){
+   global $wp_version;
+   if ( version_compare( $wp_version, '3.1', '>=' ) )
+   {
+      global $wp_admin_bar;
+      $menu_items = array(
+	 array(
+	    'id' => 'pingeb_adminbar_pingeborg',
+	    'title' => '<img style="float:left;margin:5px 5px 0 0;" src="' . plugins_url("pingeborg/img/icon.png") . '"/></span> pingeb.org',
+	    'href' => admin_url('admin.php?page=pingeb_tag_admin'),
+	    'meta' => array( 'title' => 'pingeb.org' )
+	 ),
+	 array(
+	    'id' => 'pingeb_adminbar_tags',
+	    'parent' => 'pingeb_adminbar_pingeborg',
+	    'title' => 'Tags',
+	    'href' => admin_url('admin.php?page=pingeb_tag_admin')
+	 ),
+	 array(
+	    'id' => 'pingeb_adminbar_settings',
+	    'parent' => 'pingeb_adminbar_pingeborg',
+	    'title' => 'Settings',
+	    'href' => admin_url('admin.php?page=pingeb_twitter_admin')
+	 ),
+	 array(
+	    'id' => 'pingeb_adminbar_tag_maintenance',
+	    'parent' => 'pingeb_adminbar_pingeborg',
+	    'title' => 'Tag Maintenance',
+	    'href' => admin_url('admin.php?page=pingeb_admin_tag_maintenance')
+	 ),
+	 array(
+	    'id' => 'pingeb_adminbar_info',
+	    'parent' => 'pingeb_adminbar_pingeborg',
+	    'title' => 'Info',
+	    'href' => admin_url('admin.php?page=pingeb_info')
+	 )
+      );
+
+      foreach ($menu_items as $menu_item) {
+	 $wp_admin_bar->add_menu($menu_item);
+      }
+   }
+}
 ?>

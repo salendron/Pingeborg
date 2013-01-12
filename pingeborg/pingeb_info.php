@@ -36,6 +36,9 @@ function pingeb_info(){
 	 <h2>Thanks!</h2>
 	 <p>Project Ingeborg is proudly supported by the <a href="http://www.nic.at/ipa" target="_blank">Austrian Internet Foundation IPA</a></p>
 	 <img src="<?php echo plugins_url("pingeborg/img/netidee.jpg"); ?>">
+	 
+	 <p>Thanks a lot to <a href="http://wordpress.org/extend/plugins/leaflet-maps-marker/">Leaflet Maps Marker</a> by <a href="http://www.harm.co.at" target="_blank">Robert Harm</a>.</p>
+	 <img src="http://cdn.mapsmarker.com/wp-content/themes/mapsmarker/inc/images/mapsmarker.png">
 	
 	<h2>3rd party libraries</h2>
 	<h3>g.Raphael - Charting library, based on Raphaël</h3>

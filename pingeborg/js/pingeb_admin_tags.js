@@ -152,6 +152,9 @@ function pingeb_save_tag(id){
 function pingeb_build_tag_list(){
 	var html = "";
 	var tagList = document.getElementById('pingeb_admin_tag_list');
+	
+	//csv string
+	var csv = "data:text/csv;charset=utf-8,Id;Name;NFC-URL;QR-URL;Geofence-URL;Layer;Geofence-Radius%0A";
 
 	if(tags.length > 0){
 		//header
@@ -168,6 +171,11 @@ function pingeb_build_tag_list(){
 	
 		//tags
 		for(var i = 0; i < tags.length; i++){
+			//initialize csv url values
+			var csvNfcUrl = "";
+			var csvQrUrl = "";
+			var csvGeofenceUrl = "";
+			
 			html +="<div class='pingeb-table-row'>";
 			//html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['id'] + "</center></div>";
 			html +="<div class='pingeb-table-col-mm'><center>" + tags[i]['marker_id'] + "</center></div>";
@@ -208,6 +216,17 @@ function pingeb_build_tag_list(){
 				html +="<div style='width:40%;float:left;text-align:left;'><b>/" + tags[i]['urls'][k]['url'] + "</b></div>";
 				html +="<div style='width:30%;float:left;text-align:left;'><a href='javascript:pingeb_remove_url(" + tags[i]['urls'][k]['id'] + "," + tags[i]['id'] + ");'><b>remove</b></a></div>";
 				html +="</li>";
+				
+				//get url values for csv
+				if(tags[i]['urls'][k]['type'] === "QR"){
+					csvQrUrl = baseUrl + "/" + tags[i]['urls'][k]['url'];
+				}
+				if(tags[i]['urls'][k]['type'] === "NFC"){
+					csvNfcUrl = baseUrl + "/" + tags[i]['urls'][k]['url'];
+				}
+				if(tags[i]['urls'][k]['type'] === "Geofence"){
+					csvGeofenceUrl = baseUrl + "/" + tags[i]['urls'][k]['url'];
+				}
 			}
 			html +="</ul>";
 			
@@ -227,6 +246,11 @@ function pingeb_build_tag_list(){
 			html +="</div>";
 	
 			html +="</div>";
+			
+			
+			//build csv string
+			csv += tags[i]['marker_id'] + ";" + tags[i]['name'] + ";" + csvNfcUrl + ";" + csvQrUrl + ";" + csvGeofenceUrl + ";" + tags[i]['layer_name'] + ";" + tags[i]['geofence_radius'] + "%0A";
+		
 		}
 	
 		//table footer
@@ -242,6 +266,9 @@ function pingeb_build_tag_list(){
 		html +="</div>";
 	
 		tagList.innerHTML = html;
+		
+		//set csv export link
+		document.getElementById('pingeb_export_tags').href = csv;
 	} else {
 		tagList.innerHTML = "<p style='margin:10px;'><b>No marker yet created. Go to <a href='" + baseUrl + "/wp-admin/admin.php?page=leafletmapsmarker_marker'>here</a> to create one!</b></p>";
 	}
@@ -314,6 +341,10 @@ function pingeb_remove_url(id,tag_id){
 
 function pingeb_random_url(id){
 	var urlBox = document.getElementById("pingeb_tag_new_url_" + id);
+	urlBox.value = pingeb_generate_url();
+}
+
+function pingeb_generate_url(){
 	var ulrLetters = "abcdefghijklmnopqrstuvwxyz1234567890";
 	var length = 8;
 	var newUrl = "";			
@@ -321,8 +352,8 @@ function pingeb_random_url(id){
 	for(var i = 0; i < length; i++){
 		newUrl += ulrLetters[randomInt(0, ulrLetters.length - 1)];
 	}
-
-	urlBox.value = newUrl;
+	
+	return newUrl;
 }
 
 function pingeb_batch_set_radius(i){
@@ -401,6 +432,70 @@ function pingeb_batch_set_page(i){
 			pingeb_get_tags();
 		}
 	});
+}
+
+function pingeb_batch_generateUrls_withType(i,type){
+	if(tags.length == 0){
+		return;
+	}
+	if(i == 0){
+		var answer = confirm ("Do you really want to generate urls for all selected tags?")
+		if (!answer){
+			return;
+		}
+		pingeb_show_loading("generating urls for tags [" + (i+1) + " of " + tags.length +"]...");
+	} else {
+		pingeb_hide_loading();
+		pingeb_show_loading("generating urls for tags [" + (i+1) + " of " + tags.length +"]...");
+	}
+	
+	//get selection
+	var nfc = true;
+	var qr = true;
+	var geofence = true;
+	
+	//check which urls exist on this tag
+	for(var k = 0; k < tags[i]['urls'].length; k++){
+		if(tags[i]['urls'][k]['type'] === "QR"){
+			qr = false;
+		}
+		if(tags[i]['urls'][k]['type'] === "NFC"){
+			nfc = false;
+		}
+		if(tags[i]['urls'][k]['type'] === "Geofence"){
+			geofence = false;
+		}
+	}
+	
+	//add urls
+	if((type == 1 && nfc) ||
+	   (type == 2 && qr) ||
+	   (type == 3 && geofence)){
+		data = {
+			action: 'pingeb_insert_url',
+			url_type_id: type,
+			tag_id: tags[i]['id'],
+			url: pingeb_generate_url()
+		};
+	
+		jQuery.post(ajaxurl, data, function(response) {
+			if(i < tags.length -1){
+				i++;
+				pingeb_batch_generateUrls_withType(i,type);
+			} else {
+				pingeb_hide_loading();
+				pingeb_get_tags();
+			}
+		});
+	} else {
+		if(i < tags.length -1){
+			i++;
+			pingeb_batch_generateUrls_withType(i,type);
+		} else {
+			pingeb_hide_loading();
+			pingeb_get_tags();
+		}
+	}
 }
 
 function pingeb_show_qr(url){
