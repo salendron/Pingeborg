@@ -20,6 +20,13 @@ You should have received a copy of the GNU General Public License along with Pin
 global $pingeb_db_version;
 $pingeb_db_version= "1.3";
 
+if ( ! defined( 'PINGEBORG_WP_ADMIN_URL' ) )
+	define( 'PINGEBORG_WP_ADMIN_URL', get_admin_url() );
+if ( ! defined( 'PINGEBORG_PLUGIN_URL' ) )
+	define ("PINGEBORG_PLUGIN_URL", plugin_dir_url(__FILE__));
+if ( ! defined( 'PINGEBORG_PLUGIN_DIR' ) )
+	define ("PINGEBORG_PLUGIN_DIR", plugin_dir_path(__FILE__));
+
 //Installs Pingeborg
 //Author: Bruno Hautzenberger
 //Date: 09.2012
@@ -104,19 +111,16 @@ register_activation_hook(__FILE__,'pingeb_db_install');
 if(is_admin()){
 	//-----------------------------------------------------------------------------
 
-	function pingeb_admin_style() {
-		echo "<link rel='stylesheet' href='" . plugins_url('styles/admin.css', __FILE__) . "' media='all' />";
-
-		//script global values
-		echo "<script language='javascript'>\n";
-		echo "var loadingImg = '" . plugins_url('/img/loading51.gif', __FILE__) . "';\n";
-		echo "var baseUrl = '" . get_bloginfo('url') . "';\n";
-		echo "</script>\n";
+	function pingeb_admin_styles() {
+		global $wp_styles;
+		wp_enqueue_style('pingeborg-admin', PINGEBORG_PLUGIN_URL . 'styles/admin.css' );		
+		wp_enqueue_script( 'pingeb_common', PINGEBORG_PLUGIN_URL . 'js/common.js', array('jquery'), null, true );
+		wp_localize_script('pingeb_common', 'pingeb', array(
+			'loadingImg' => PINGEBORG_PLUGIN_URL . 'img/loading51.gif',
+			'baseUrl' => get_bloginfo('url')
+		) );
 	}
-
-	add_action('admin_head', 'pingeb_admin_style');
-	
-	wp_enqueue_script( 'pingeb_common', plugins_url('/js/common.js', __FILE__) , array('jquery'), null, true );
+	add_action('admin_init','pingeb_admin_styles');
 
 	//-----------------------------------------------------------------------------
 	//Tag Admin
@@ -131,11 +135,17 @@ if(is_admin()){
 	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php'); 
 	require_once(dirname(__FILE__) . '/pingeb_info.php');
 }
-//common js
+//common js - enqueued in frontend and backend
 function pingeb_scripts() {
-	echo "<script type='text/javascript' src='" . plugins_url('/js/common.js', __FILE__) . "'></script>";
+    wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'pingeb_heatmap', PINGEBORG_PLUGIN_URL . 'js/heatmap.js', array('jquery'), null, true );
+	wp_enqueue_script( 'raphael', PINGEBORG_PLUGIN_URL . 'js/raphael-min.js', array('jquery'), null, true );
+	wp_enqueue_script( 'graphael', PINGEBORG_PLUGIN_URL . 'js/g.raphael.js', array('raphael'), null, true );
+	wp_enqueue_script( 'raphael_line', PINGEBORG_PLUGIN_URL . 'js/g.line.js', array('graphael'), null, true );
+	wp_enqueue_script( 'raphael_bar', PINGEBORG_PLUGIN_URL . 'js/g.bar.js', array('graphael'), null, true );
+	wp_enqueue_script( 'raphael_pie', PINGEBORG_PLUGIN_URL . 'js/g.pie.js', array('graphael'), null, true );
 }
-add_action('wp_head', 'pingeb_scripts');
+add_action('wp_enqueue_scripts', 'pingeb_scripts');
 
 //api
 require_once(dirname(__FILE__) . '/pingeb_api.php');
@@ -145,14 +155,6 @@ require_once(dirname(__FILE__) . '/pingeb_links.php');
 
 //statistics
 require_once(dirname(__FILE__) . '/pingeb_statistics.php');
-
-wp_enqueue_script( 'pingeb_heatmap', plugins_url('/js/heatmap.js', __FILE__) , array('jquery'), null, true );
-wp_enqueue_script( 'raphael', plugins_url('/js/raphael-min.js', __FILE__) , array('jquery'), null, true );
-wp_enqueue_script( 'graphael', plugins_url('/js/g.raphael.js', __FILE__) , array('raphael'), null, true );
-wp_enqueue_script( 'raphael_line', plugins_url('/js/g.line.js', __FILE__) , array('graphael'), null, true );
-wp_enqueue_script( 'raphael_bar', plugins_url('/js/g.bar.js', __FILE__) , array('graphael'), null, true );
-wp_enqueue_script( 'raphael_pie', plugins_url('/js/g.pie.js', __FILE__) , array('graphael'), null, true );
-
 
 //widgets
 require_once(dirname(__FILE__) . '/pingeb_widgets.php');
