@@ -101,7 +101,12 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 
 == Changelog ==
 1.0.1.0
-
+New Feature: Tags can now be exported as csv. This is useful for creating new stickers. (This is no backup!) 
+New Feature: You can now autogenerate missing urls for tags. 
+New Feature: pingeb.org now has an adminbar menu.
+Change: Maps MArker added to info page. 
+Change: Plugin author is now pingeb.org. 
+Change: Twitter settings now automatically limit tweet texts to 140 characters and do not allow ' and " in texts.
 
 1.0.0.91
 Change: API call /api/tags now also shows tags without downloads.
