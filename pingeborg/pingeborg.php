@@ -131,6 +131,10 @@ if(is_admin()){
 	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php'); 
 	require_once(dirname(__FILE__) . '/pingeb_info.php');
 }
+
+//page meta
+require_once(dirname(__FILE__) . '/pingeb_post_data.php');
+
 //common js
 function pingeb_scripts() {
 	echo "<script type='text/javascript' src='" . plugins_url('/js/common.js', __FILE__) . "'></script>";
