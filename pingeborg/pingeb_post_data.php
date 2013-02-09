@@ -387,13 +387,13 @@ function pingeb_show_meta($content) {
                     $squares .= $divEnd;
                 }
                 
-                /* TODO Flickr???
+
                 if($field['id'] == 'pingeb_flickr'){
                     $squares .= $divStart;
                     $squares .= "<a href='" . $val . "' target='_blank'>";
-                    $squares .= "<img alt='Follow on Twitter' src='" . plugins_url("pingeborg/img/squares/13.png") . "' style='width:100%' /></a>";
+                    $squares .= "<img alt='Follow on Twitter' src='" . plugins_url("pingeborg/img/squares/17.png") . "' style='width:100%' /></a>";
                     $squares .= $divEnd;
-                }*/
+                }
                 
                 if($field['id'] == 'pingeb_wikipedia'){
                     $squares .= $divStart;
