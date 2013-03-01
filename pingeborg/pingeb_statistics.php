@@ -355,11 +355,13 @@ function pingeb_statistic_os( $atts ) {
 			if(upper(visitor_os) like '%WINDOWS PHONE%', 'Windows Phone', 
 			if(upper(visitor_os) like '%IPHONE%', 'iOS',
 			if(upper(visitor_os) like '%IPAD%', 'iOS',
+			if(upper(visitor_os) like '%QRAFTER%', 'iOS',
 			if(upper(visitor_os) like '%ANDROID%', 'Android',
 			if(upper(visitor_os) like '%SYMBIAN%', 'Symbian',
 			if(upper(visitor_os) like '%BADA%', 'Bada',
 			if(upper(visitor_os) like '%BLACKBERRY%', 'BlackBerry',
-			'other'))))))) as name
+			if(upper(visitor_os) like '%SAMSUNG-GT-S3650%', 'Samsung',
+			'other'))))))))) as name
 			from " . $wpdb->prefix . "pingeb_statistik stat, " . $wpdb->prefix . "pingeb_url_type ut, " . $wpdb->prefix . "leafletmapsmarker_markers mm
 			where ut.id = stat.url_type and mm.id = stat.tag_id 
 			) os where os.name != 'other' group by os.name"; 
