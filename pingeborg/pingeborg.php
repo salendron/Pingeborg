@@ -4,7 +4,7 @@
 Plugin Name: pingeb.org
 Plugin URI: http://pingeb.org
 Description: A plugin that connects the real world with your great content on WordPress using NFC, QR and geofences.
-Version: 1.0.1.0
+Version: 2.0.0.0
 Author: pingeb.org
 Author URI: http://pingeb.org
 License: 
