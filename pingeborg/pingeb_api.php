@@ -153,6 +153,15 @@ function pingeb_api_get_tags($params){
 	$order = "name";
 	$orderDirection = "ASC";
 	
+	$layers = get_option('api_tag_layers');
+	$layers =  explode(",",$layers);
+	$layerList = "";
+	foreach ( $layers as $l ) {
+		$layerList .= "'" . trim($l) . "',";
+	}
+	
+	$layerList = trim($layerList, ",");
+	
 	foreach ( $params as $param ) {
 			if($param[0] === "layer"){
 				$layer = $param[1];
@@ -190,11 +199,17 @@ function pingeb_api_get_tags($params){
 		$sql .= "and mm.lat <= " . $wpdb->escape($box[0]) . " and mm.lon >= " . $wpdb->escape($box[1]) . " and mm.lat >= " . $wpdb->escape($box[2]) . " and mm.lon <= " . $wpdb->escape($box[3]) . " ";
 	}
 	
+	$sql .= "where 1 = 1 ";
+	
 	if($layer != "-1"){
 		$sql .= "and ml.name = '" . $wpdb->escape($layer) . "' ";
 	}
 	
-	$sql .= "order by " . $wpdb->escape($order) . " " . $orderDirection; 
+	if($layerList != "''"){
+		$sql .= "and ml.name in (" . $layerList . ") ";
+	}
+	
+	$sql .= "order by " . $wpdb->escape($order) . " " . $orderDirection;
 	
 	//select tags
 	$arr = array ();

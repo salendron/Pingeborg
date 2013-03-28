@@ -40,6 +40,9 @@ function pingeb_register_twitter_settings() {
 	register_setting( 'pingeb_twitter_settings_group', 'use_geofence' );
 	register_setting( 'pingeb_twitter_settings_group', 'geofence_url' );
 	register_setting( 'pingeb_twitter_settings_group', 'no_tag_found_url' );
+	
+	//register api settings
+	register_setting( 'pingeb_twitter_settings_group', 'api_tag_layers' );
 }
 
 //Renders the Twitter Admin Page
@@ -144,6 +147,13 @@ function pingeb_twitter_admin(){
 			<tr valign="top">
 				<th scope="row"><b>Tweet Text 5</b></th>
 				<td><textarea name="tweet_text5" onkeyup="checkField(this,140)" cols="70" rows="2" ><?php echo get_option('tweet_text5'); ?></textarea> use %TagName% to include tag name into tweet.</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row" colspan="2"><h2>API Settings</h2></th>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Layers to publish (empty = publish all layers)</th>
+				<td><input name="api_tag_layers" type="text" size="70" value="<?php echo get_option('api_tag_layers'); ?>" /> Example: Layer1, Layer2</td>
 			</tr>
 		</table>		
 		

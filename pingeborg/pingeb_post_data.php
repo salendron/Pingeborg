@@ -149,6 +149,13 @@ $pingeb_meta_box = array(
             'id' => $pingeb_meta_prefix . 'youtube',
             'type' => 'text',
             'std' => ''
+        ), 
+        array(
+            'name' => 'Vimeo',
+            'desc' => 'Vimeo',
+            'id' => $pingeb_meta_prefix . 'vimeo',
+            'type' => 'text',
+            'std' => ''
         ),
         array(
             'name' => 'Flickr',
@@ -392,6 +399,13 @@ function pingeb_show_meta($content) {
                     $squares .= $divStart;
                     $squares .= "<a href='" . $val . "' target='_blank'>";
                     $squares .= "<img alt='Follow on Twitter' src='" . plugins_url("pingeborg/img/squares/17.png") . "' style='width:100%' /></a>";
+                    $squares .= $divEnd;
+                }
+                
+                if($field['id'] == 'pingeb_vimeo'){
+                    $squares .= $divStart;
+                    $squares .= "<a href='" . $val . "' target='_blank'>";
+                    $squares .= "<img alt='Watch on Vimeo' src='" . plugins_url("pingeborg/img/squares/18.png") . "' style='width:100%' /></a>";
                     $squares .= $divEnd;
                 }
                 
