@@ -16,7 +16,30 @@ function pingeb_counter_widget( $args ) {
 	
 	$downloads = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik",null ) );
 	$downloadsToday = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik where curdate() = substr(visit_time,1,10)",null ) );
-	$tags = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_tag", null ) );
+	
+	//tag count with selected layers
+	$sql = "select count(*) from " . $wpdb->prefix . "pingeb_tag t, " . $wpdb->prefix . "leafletmapsmarker_markers m, " . $wpdb->prefix . "leafletmapsmarker_layers l
+	where t.marker_id = m.id and m.layer = l.id ";
+	
+	$layers = get_option('api_tag_layers');
+	$layers =  explode(",",$layers);
+	$layerList = "";
+	foreach ( $layers as $l ) {
+		$layerList .= "'" . trim($l) . "',";
+	}
+	$layerList = trim($layerList, ",");
+	
+	if($layerList != "''"){
+		$sql .= "and l.name in (" . $layerList . ") ";
+	}
+	
+	$tags = $wpdb->get_var( $wpdb->prepare( $sql ) );
+	
+	
+	/*
+	select count(*) from DEV_pingeb_tag t, DEV_leafletmapsmarker_markers m, DEV_leafletmapsmarker_layers l
+	where t.marker_id = m.id and m.layer = l.id and l.name in ('pingeb.org')
+	 */
 	
 	//Render Widget
 	echo $args['before_widget'];

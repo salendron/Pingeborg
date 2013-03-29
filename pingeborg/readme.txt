@@ -7,7 +7,7 @@ Author URI:        http://pingeb.org
 Author:            Projekt Ingeborg
 Requires at least: 3.0
 Tested up to:      3.5beta2
-Stable tag:        2.0.0.1
+Stable tag:        2.0.0.2
 License:           GPLv3 or later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -135,6 +135,10 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+2.0.0.2
+Bug fix: Counter Widget now also show only locations on enabled layers.
+Bug fix: Fixed UI problem with content squares on mobile devices.
+
 2.0.0.1
 New Feature: New content square 'Vimeo'
 New Feature: Layer-Filter Setting for tags API.
