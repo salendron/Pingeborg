@@ -44,7 +44,7 @@ function pingeb_heatmap( $atts ) {
 		function getData(){ 
 			if(m.getZoomLevel()>7){
 				var mb=m.getBounds();
-				MQA.IO.doJSONP('http://pingeb.org/apip/downloads?pageSize={$downloads}&callback=rendersearch');
+				MQA.IO.doJSONP('" . get_bloginfo('url') . "/apip/downloads?pageSize={$downloads}&callback=rendersearch');
 			}else{ // or not
 				if(hmdiv)hmdiv.innerHTML='';
 			}
