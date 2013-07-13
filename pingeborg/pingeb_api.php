@@ -66,7 +66,7 @@ function pingeb_api_get_stats() {
 		}
 	}
 	
-	return array("downloads" => $downloads, "downloadsToday" => $downloadsToday, "percentageQr" => $qr, "percentageNfc" => $nfc);
+	return array("downloads" => $downloads, "downloadsToday" => $downloadsToday, "percentageQr" => $qr, "percentageNfc" => $nfc, 'geofenceUrl' => get_option('geofence_url'));
 }
 
 //gets all downloads

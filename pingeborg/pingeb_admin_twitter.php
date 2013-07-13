@@ -43,6 +43,11 @@ function pingeb_register_twitter_settings() {
 	
 	//register api settings
 	register_setting( 'pingeb_twitter_settings_group', 'api_tag_layers' );
+	
+	//register push settings
+	register_setting( 'pingeb_twitter_settings_group', 'push_enabled' );
+	register_setting( 'pingeb_twitter_settings_group', 'push_url' );
+	register_setting( 'pingeb_twitter_settings_group', 'push_key' );
 }
 
 //Renders the Twitter Admin Page
@@ -85,6 +90,11 @@ function pingeb_twitter_admin(){
 	$geo_checked = "";
 	if(get_option('use_geofence') == 1) {
 		$geo_checked = "checked";
+	}
+	
+	$push_checked = "";
+	if(get_option('push_enabled') == 1) {
+		$push_checked = "checked";
 	}
 	?> 
 	<form method="post" action="options.php">
@@ -154,6 +164,21 @@ function pingeb_twitter_admin(){
 			<tr valign="top">
 				<th scope="row">Layers to publish (empty = publish all layers)</th>
 				<td><input name="api_tag_layers" type="text" size="70" value="<?php echo get_option('api_tag_layers'); ?>" /> Example: Layer1, Layer2</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row" colspan="2"><h2>GCM Push</h2></th>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><b>Activate</b></th>
+				<td><input name="push_enabled" type="checkbox" value="1" <?php echo $push_checked; ?> /> </td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Push Url</th>
+				<td><input name="push_url" type="text" size="70" value="<?php echo get_option('push_url'); ?>" /> </td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">Push Key</th>
+				<td><input name="push_key" type="text" size="70" value="<?php echo get_option('push_key'); ?>" /> </td>
 			</tr>
 		</table>		
 		

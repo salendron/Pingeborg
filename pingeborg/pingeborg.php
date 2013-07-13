@@ -4,7 +4,7 @@
 Plugin Name: pingeb.org
 Plugin URI: http://pingeb.org
 Description: A plugin that connects the real world with your great content on WordPress using NFC, QR and geofences.
-Version: 2.0.0.3
+Version: 2.0.1.1
 Author: pingeb.org
 Author URI: http://pingeb.org
 License: 
@@ -206,4 +206,45 @@ function pingeb_add_toolbar($admin_bar){
       }
    }
 }
+
+//add feature to feed
+function pingeb_addFeatureImageToFeed($content) {
+        $width = "625px";	
+	global $post;
+	if (has_post_thumbnail($post->ID)){
+		$content = '' . get_the_post_thumbnail( $post->ID, $width, array( 'style' => 'float:left; margin:0 10px 10px 0;' ) ) . '<br />' . $content;
+
+	}
+	return $content;
+}
+add_filter('the_content_feed', 'pingeb_addFeatureImageToFeed');
+
+//push new article
+add_action( 'save_post', 'pingeb_send_article_push' );
+
+function pingeb_send_article_push( $post_id ) {
+
+   $use_push = get_option('push_enabled');
+   $push_url =  get_option('push_url');
+   $push_key =  get_option('push_key');
+
+   if($use_push == 1){ // push enabled
+      if ( !wp_is_post_revision( $post_id ) ) {
+	 $post_title = get_the_title( $post_id );
+	 $post_url = get_permalink( $post_id );
+	 
+	 $qry_str = "?pushKey=" . $push_key . "&content=NEWARTICLE";
+	 
+	 $ch = curl_init();
+	 
+	 curl_setopt($ch, CURLOPT_URL, $push_url . $qry_str); 
+	 
+	 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	 curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+	 $content = trim(curl_exec($ch));
+	 curl_close($ch);
+      }
+   }
+}
+
 ?>

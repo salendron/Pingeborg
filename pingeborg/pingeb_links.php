@@ -104,6 +104,7 @@ function pingeb_redirect(){
 	
 	//redirect if it is a tag url
 	if($pageId != -1){
+		
 		//insert statistik
 		$wpdb->insert( 
 			$wpdb->prefix . "pingeb_statistik", 
@@ -206,7 +207,7 @@ function post_tweet($tweet_text, $consumer_key, $consumer_secret, $user_token, $
   
   // Make the API call
   $connection->request('POST', 
-    $connection->url('1/statuses/update'), 
+    $connection->url('1.1/statuses/update.json'), 
     array('status' => $tweet_text));
   
   return $connection->response['code'];

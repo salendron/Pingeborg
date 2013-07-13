@@ -254,4 +254,35 @@ function pingeb_insert_url_callback() {
 	die();
 }
 
+//Send push
+//Author: Bruno Hautzenberger
+//Date: 06.2013
+add_action('wp_ajax_pingeb_send_push', 'pingeb_send_push_callback');
+function pingeb_send_push_callback() {
+	$use_push = get_option('push_enabled');
+	$push_url =  get_option('push_url');
+	$push_key =  get_option('push_key');
+     
+	if($use_push == 1){ // push enabled
+	   if ( !wp_is_post_revision( $post_id ) ) {
+	      $post_title = get_the_title( $post_id );
+	      $post_url = get_permalink( $post_id );
+	      
+	      $qry_str = "?pushKey=" . $push_key . "&content=TAGUPDATE";
+	      
+	      $ch = curl_init();
+	      
+	      curl_setopt($ch, CURLOPT_URL, $push_url . $qry_str); 
+	      
+	      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	      curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+	      $content = trim(curl_exec($ch));
+	      curl_close($ch);
+	   }
+	}
+	
+	echo "DONE!";
+	die();
+}
+
 ?>

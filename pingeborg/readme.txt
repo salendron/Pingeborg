@@ -7,41 +7,7 @@ Author URI:        http://pingeb.org
 Author:            Projekt Ingeborg
 Requires at least: 3.0
 Tested up to:      3.5beta2
-Stable tag:        2.0.0.3
-License:           GPLv3 or later
-License URI:       http://www.gnu.org/licenses/gpl-3.0.html
-
-The plugin distributes content from a WordPress site to specific locations using NFC-tags, QR-codes or geofences.
-
-== Description ==
-
-pingeb.org is a plugin for WordPress that connects your content to specific locations in the real world. You can distribute stickers/posters with NFC tags and/or QR codes in your town or building and offer location based content. It also supports geofences.
-
-= Many different use cases =
-The plugin manages URLs and refreshes content for NFC-tags, QR-codes on stickers and posters or geofences, making possible a wide variety of time-dependent and location-based applications in public places. Here are just some of the things which can be done:
-
-* You can **promote local artists** with samples of their work, as we on [Project Ingeborg](http://pingeb.org).
-* You can distribute **e-books or songs** that are out of copyright or to which you have rights.
-* You can surprise people with a **daily YouTube video** or a song from Soundcloud.
-* You can post **a photo-of-the-day** which people can access with their smartphones.
-* You can offer a **daily insider tip** for restaurants or bars around town.
-* You can **introduce developers and their apps** and offer links to their pages in app stores.
-* You can **promote your own blog or website** around town and do all kinds of advertising for just about anything.
-* **Stadiums, museums or exhibitions** can locate visitors indoor and deliver location-based information.
-
-In other words, you can do a lot with this WordPress-plugin and simple NFC-tags, QR-codes or geofences. Without having to change the stickers or posters you can provide fresh content either at all or at selected locations.
-
-For the end user it’s really simple to use:
-1. Switch on your NFC-enabled smartphone and hold it against a sticker or photograph the QR-code.
-2. A mobile website featuring the content will then be opened.
-
-Plugin URI:        http://pep.pingeb.org
-Tags:              NFC, QR, geofence, location, GPS, stickers, posters, locationbased, timedependent
-Author URI:        http://pingeb.org
-Author:            Projekt Ingeborg
-Requires at least: 3.0
-Tested up to:      3.5beta2
-Stable tag:        2.0.0.1
+Stable tag:        2.0.1.1
 License:           GPLv3 or later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -135,6 +101,16 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+2.0.1.1
+Fix: Content Squares vertical padding fixed
+New Feature: /api/systemStatistics now also shows configured geofence url
+
+2.0.1.0
+Bug Fix: Twitter now works again 
+New Feature: SoundCloud Widget
+New Feature: Push new Articles using GCM Push
+New Feature: Push updated Tags using GCM Push
+
 2.0.0.3
 Bug Fix: Heatmap Callback Url
 

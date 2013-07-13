@@ -193,6 +193,7 @@ function pingeb_post_meta_box() {
 // Callback function to show fields in meta box
 function pingeb_post_meta_box_show() {
     global $pingeb_meta_box, $post;
+    
     // Use nonce for verification
     echo '<input type="hidden" name="pingeb_post_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
     echo '<table class="form-table">';
@@ -348,7 +349,7 @@ function pingeb_show_meta($content) {
         $artist = get_post_meta($post->ID, 'pingeb_artist', true);
         $mp3download = get_post_meta($post->ID, 'pingeb_mp3download', true);
         
-        $divStart = "<div style='width:50%;float:left;padding-left:4px;padding-top:4px;padding-right:4px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;'>";
+        $divStart = "<div style='width:50%;float:left;padding-left:4px;padding-top:0px;padding-right:4px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;'>";
         $divEnd = "</div>";
         
         $media = "<br />";

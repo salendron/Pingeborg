@@ -112,6 +112,22 @@ function pingeb_tag_admin(){
 	</div>
 	<?php 
 	//END Export
+	
+	 //Push
+	 $use_push = get_option('push_enabled');
+      
+	 if($use_push == 1){ // push enabled
+	?> 
+	<div id="pingeb-admin-box">
+		<h2 class="pingeb_headline">Push to mobile devices</h2>
+		<p><i>Every time you have edited tags you should use this button to push all changed and new tags to mobile devices. They will automatically update all tags in their cache. This will not trigger a notification on these devices.</i></p> 
+		<p>
+		  <input onclick="pingeb_send_push()" type="button" id="pingeb_send_push" value="send push">
+		</p>
+	</div>
+	<?php
+	 }
+	//END Push
 
 	//Tag list
 	?> 

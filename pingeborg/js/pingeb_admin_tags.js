@@ -498,6 +498,27 @@ function pingeb_batch_generateUrls_withType(i,type){
 	}
 }
 
+function pingeb_send_push(){
+	if(tags.length == 0){
+		return;
+	}
+	
+	var answer = confirm ("Do you really want to push these changes to mobile devices? Only do this if your done editing tags. Do not do this too often!")
+	if (!answer){
+		return;
+	}
+	pingeb_show_loading("pushing to devices...");
+	
+	//push
+	data = {
+		action: 'pingeb_send_push'
+	};
+
+	jQuery.post(ajaxurl, data, function(response) {
+		pingeb_hide_loading();
+	});
+}
+
 function pingeb_show_qr(url){
 	var overlay = document.createElement('div');
 	overlay.setAttribute('id', 'qroverlay');
