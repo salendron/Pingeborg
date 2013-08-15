@@ -19,6 +19,15 @@ function pingeb_redirect(){
 	
 	$req = trim($_SERVER["REQUEST_URI"], '/');
 	
+	//clean subdirectories if there are any
+	$base = get_bloginfo('url');
+
+	$subdir = trim(parse_url($base, PHP_URL_PATH),'/') . '/';
+	if($subdir != '/'){
+		$req = str_replace($subdir, "", $req);
+	}
+	//end clean subdirectories
+	
 	$use_geofence = get_option('use_geofence');
 	$geofence_url =  get_option('geofence_url');
 	$no_tag_found_url =  get_option('no_tag_found_url');

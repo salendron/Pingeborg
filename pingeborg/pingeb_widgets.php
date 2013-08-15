@@ -33,7 +33,7 @@ function pingeb_counter_widget( $args ) {
 		$sql .= "and l.name in (" . $layerList . ") ";
 	}
 	
-	$tags = $wpdb->get_var( $wpdb->prepare( $sql ) );
+	$tags = $wpdb->get_var( $wpdb->prepare( $sql , null) );
 	
 	
 	/*

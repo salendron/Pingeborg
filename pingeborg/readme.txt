@@ -1,5 +1,4 @@
 === pingeb.org ===
-Contributors:      pingeborg=== pingeb.org ===
 Contributors:      pingeborg
 Plugin URI:        http://pep.pingeb.org
 Tags:              NFC, QR, geofence, location, GPS, stickers, posters, locationbased, timedependent
@@ -7,7 +6,7 @@ Author URI:        http://pingeb.org
 Author:            Projekt Ingeborg
 Requires at least: 3.0
 Tested up to:      3.5beta2
-Stable tag:        2.0.1.1
+Stable tag:        2.0.2.0
 License:           GPLv3 or later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -101,6 +100,14 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+2.0.2.0
+Fix: pingeb.org can now also works in wordpress subdirectory installations.
+Fix: No warning if leaflet mapsmarker pro is installed instead of standard maps marker.
+Fix: Widget does not throw a warning anymore. 
+UI: Content squares now have a little more space.
+New Feature: EPUB and MOBI files can now be uploaded using wordpress media.
+New Feature: Tag-API now also deliver geofence Url.
+
 2.0.1.1
 Fix: Content Squares vertical padding fixed
 New Feature: /api/systemStatistics now also shows configured geofence url

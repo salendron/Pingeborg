@@ -37,9 +37,9 @@ function pingeb_tag_admin(){
 	       <p><strong>That's it?</strong> Yes! Now get awesome and do amazing stuff. We’d love to hear from you: <a href="mailto:mail@pingeb.org">mail@pingeb.org</a>.</p>	
 	 </div>
 	<?php 
-	//END Page Header
+	//END Page Header 
 
-  If (!is_plugin_active('leaflet-maps-marker/leaflet-maps-marker.php')) {
+  If (!is_plugin_active('leaflet-maps-marker/leaflet-maps-marker.php') && !is_plugin_active('leaflet-maps-marker-pro/leaflet-maps-marker.php')) {
   	  //Maps MArker Check   
 				?>
 				  <div id="pingeb-admin-box">

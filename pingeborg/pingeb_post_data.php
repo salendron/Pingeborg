@@ -349,7 +349,7 @@ function pingeb_show_meta($content) {
         $artist = get_post_meta($post->ID, 'pingeb_artist', true);
         $mp3download = get_post_meta($post->ID, 'pingeb_mp3download', true);
         
-        $divStart = "<div style='width:50%;float:left;padding-left:4px;padding-top:0px;padding-right:4px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;'>";
+        $divStart = "<div style='width:50%;float:left;padding-left:6px;padding-top:4px;padding-right:6px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;'>";
         $divEnd = "</div>";
         
         $media = "<br />";

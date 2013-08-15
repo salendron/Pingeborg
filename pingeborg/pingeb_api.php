@@ -188,12 +188,13 @@ function pingeb_api_get_tags($params){
 	join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer
 	where t.marker_id = mm.id ";*/
 	
-	$sql = "select t.id as id, mm.markername as name, mm.lat as lat, mm.lon as lon, ml.name layer, IFNULL(stat.count,0) as clicks, t.geofence_radius geofence_radius, IFNULL(geofence.enabled,0) geofence_enabled, PASSWORD(t.page_id) as current_content_id
+	$sql = "select t.id as id, mm.markername as name, mm.lat as lat, mm.lon as lon, ml.name layer, IFNULL(stat.count,0) as clicks, t.geofence_radius geofence_radius, IFNULL(geofence.enabled,0) geofence_enabled, PASSWORD(t.page_id) as current_content_id , IFNULL(geoUrl.geofence_url,'') as geofence_url 
 	from " . $wpdb->prefix . "pingeb_tag t
 	join " . $wpdb->prefix . "leafletmapsmarker_markers mm on t.marker_id = mm.id
 	left outer join (select tag_id, count(*) as count from " . $wpdb->prefix . "pingeb_statistik group by tag_id) stat on  stat.tag_id = mm.id
 	join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer
-	left outer join (select u.tag_id, count(*) enabled from " . $wpdb->prefix . "pingeb_url u where u.url_type_id > 2 group by tag_id) geofence on t.id = geofence.tag_id ";
+	left outer join (select u.tag_id, count(*) enabled from " . $wpdb->prefix . "pingeb_url u where u.url_type_id > 2 group by tag_id) geofence on t.id = geofence.tag_id
+	left outer join (select u.tag_id, u.url geofence_url from DEV_pingeb_url u where u.url_type_id > 2 group by tag_id) geoUrl on t.id = geoUrl.tag_id ";
 		
 	if($box != "-1"){
 		$sql .= "and mm.lat <= " . $wpdb->escape($box[0]) . " and mm.lon >= " . $wpdb->escape($box[1]) . " and mm.lat >= " . $wpdb->escape($box[2]) . " and mm.lon <= " . $wpdb->escape($box[3]) . " ";
@@ -225,7 +226,8 @@ function pingeb_api_get_tags($params){
 		'lon'=>$tag->lon,
 		'geofence_radius'=>$tag->geofence_radius,
 		'geofence_enabled'=>$tag->geofence_enabled,
-		'current_content_id'=>$tag->current_content_id
+		'current_content_id'=>$tag->current_content_id,
+		'geofence_url'=>get_bloginfo('url') . '/' . get_option('geofence_url')
 		); 
 		$i++;
 	}
