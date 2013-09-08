@@ -45,8 +45,8 @@ function pingeb_api($url){
 function pingeb_api_get_stats() {
 	global $wpdb; 
 	
-	$downloads = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik" ) );
-	$downloadsToday = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik where curdate() = substr(visit_time,1,10)" ) );
+	$downloads = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik", null ) );
+	$downloadsToday = $wpdb->get_var( $wpdb->prepare( "select count(*) from " . $wpdb->prefix . "pingeb_statistik where curdate() = substr(visit_time,1,10)",null ) );
 
 	//geet nfc qr relation
 	$sql = "select url_type as type, (count(url_type) / ((select count(*) from " . $wpdb->prefix . "pingeb_statistik where url_type in(1,2)) / 100)) as count
@@ -194,7 +194,7 @@ function pingeb_api_get_tags($params){
 	left outer join (select tag_id, count(*) as count from " . $wpdb->prefix . "pingeb_statistik group by tag_id) stat on  stat.tag_id = mm.id
 	join  " . $wpdb->prefix . "leafletmapsmarker_layers ml on ml.id = mm.layer
 	left outer join (select u.tag_id, count(*) enabled from " . $wpdb->prefix . "pingeb_url u where u.url_type_id > 2 group by tag_id) geofence on t.id = geofence.tag_id
-	left outer join (select u.tag_id, u.url geofence_url from DEV_pingeb_url u where u.url_type_id > 2 group by tag_id) geoUrl on t.id = geoUrl.tag_id ";
+	left outer join (select u.tag_id, u.url geofence_url from " . $wpdb->prefix . "pingeb_url u where u.url_type_id > 2 group by tag_id) geoUrl on t.id = geoUrl.tag_id ";
 		
 	if($box != "-1"){
 		$sql .= "and mm.lat <= " . $wpdb->escape($box[0]) . " and mm.lon >= " . $wpdb->escape($box[1]) . " and mm.lat >= " . $wpdb->escape($box[2]) . " and mm.lon <= " . $wpdb->escape($box[3]) . " ";
