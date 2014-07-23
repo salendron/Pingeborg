@@ -97,18 +97,20 @@ function pingeb_redirect(){
 	}
 	
 	//check if it is a tag url
-	$sql = "select pt.page_id as page, pu.url_type_id as urltype, pt.marker_id tag from " . $wpdb->prefix . "pingeb_tag pt, " . $wpdb->prefix . "pingeb_url pu ";
+	$sql = "select pt.page_id as page, pu.url_type_id as urltype, pt.marker_id tag, IFNULL(pt.custom_html_id,-1) as block_id from " . $wpdb->prefix . "pingeb_tag pt, " . $wpdb->prefix . "pingeb_url pu ";
 	$sql .=  "where pu.url = '" . $wpdb->escape($req) . "' and pu.tag_id = pt.id";
 	
 	$urlType = -1;
 	$pageId = -1;
 	$tagId = -1;
+	$blockId = -1;
 	
 	$results = $wpdb->get_results($sql);
 	foreach( $results as $result ) {
 		$urlType = $result->urltype;
 		$pageId = $result->page;
 		$tagId = $result->tag;
+		$blockId = $result->block_id;
 	}
 	
 	//redirect if it is a tag url
@@ -132,8 +134,11 @@ function pingeb_redirect(){
 		//send tweet
 		sendTweet($tagId);
 
-
-		echo "<meta http-equiv='refresh' content='0;url=" . get_permalink($pageId) . "' />";
+		if($blockId == -1){
+			echo "<meta http-equiv='refresh' content='0;url=" . get_permalink($pageId) . "' />";
+		} else {
+			echo "<meta http-equiv='refresh' content='0;url=" . get_permalink($pageId) . "?cb=" . $blockId ."' />";
+		}
 		exit();
 	}	
 }

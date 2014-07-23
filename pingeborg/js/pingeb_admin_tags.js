@@ -15,6 +15,7 @@ var pages = [];
 var url_types = [];
 var tags = [];
 var layers = [];
+var htmlBlocks = [];
 
 jQuery(document).ready(function($) {
 	pingeb_show_loading("");
@@ -53,9 +54,18 @@ jQuery(document).ready(function($) {
 
 				jQuery.post(ajaxurl, data, function(response) {
 					tags = JSON.parse(response);
-					prepareUI();
-					pingeb_build_tag_list();
-					pingeb_hide_loading();
+					
+					//load custom html blocks
+					var data = {
+						action: 'pingeb_get_custom_html_blocks'
+					};
+	
+					jQuery.post(ajaxurl, data, function(response) {
+						htmlBlocks = JSON.parse(response);
+						prepareUI();
+						pingeb_build_tag_list();
+						pingeb_hide_loading();
+					});
 				});
 			});
 		});
@@ -130,6 +140,8 @@ function pingeb_save_tag(id){
 	
 	var page = document.getElementById('pingeb_tag_page_' + id).value;
 	
+	var custom_html_block = document.getElementById('pingeb_tag_block_' + id).value;
+	
 	if(!isNumber(radius)){
 		pingeb_hide_loading();
 		alert("Geofence radius has to be a number!");
@@ -141,6 +153,7 @@ function pingeb_save_tag(id){
 		action: 'pingeb_save_tag',
 		geofence_radius: radius,
 		page_id: page,
+		html_block_id:custom_html_block,
 		tag_id: id
 	};
 
@@ -167,6 +180,7 @@ function pingeb_build_tag_list(){
 		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Geofence Radius</div>";
 		html +="<div class='pingeb-table-header-col' style='border-right:1px solid #a4a4a4;border-left:1px solid #a4a4a4;'>Url-Suffixes</div>";
 		html +="<div class='pingeb-table-header-col' style='border-left:1px solid #a4a4a4;'>Redirect to</div>";
+		html +="<div class='pingeb-table-header-col' style='border-left:1px solid #a4a4a4;'>add custom HTML block</div>";
 		html +="</div>";
 	
 		//tags
@@ -244,6 +258,19 @@ function pingeb_build_tag_list(){
 			}
 			html +="</select>";
 			html +="</div>";
+			
+			html +="<div class='pingeb-table-col'>";
+			html +="<select style='width:100%' id='pingeb_tag_block_" + tags[i]['id'] + "' onchange='pingeb_save_tag(" + tags[i]['id'] + ")' size='1'>";
+			html +="<option value='-1'>None</option>";
+			for(var j = 0; j < htmlBlocks.length; j++){
+				if(tags[i]['html_block_id'] == htmlBlocks[j]['id']){
+					html += "<option value='" + htmlBlocks[j]['id'] + "' selected>" + htmlBlocks[j]['name'] + "</option>";
+				} else {
+					html += "<option value='" + htmlBlocks[j]['id'] + "'>" + htmlBlocks[j]['name'] + "</option>";
+				}
+			}
+			html +="</select>";
+			html +="</div>";
 	
 			html +="</div>";
 			
@@ -255,6 +282,7 @@ function pingeb_build_tag_list(){
 	
 		//table footer
 		html +="<div class='pingeb-table-header'>";
+		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";
 		html +="<div class='pingeb-table-header-col'>&nbsp;</div>";

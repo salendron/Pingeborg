@@ -4,7 +4,7 @@
 Plugin Name: pingeb.org
 Plugin URI: http://pingeb.org
 Description: A plugin that connects the real world with your great content on WordPress using NFC, QR and geofences.
-Version: 2.0.2.1
+Version: 2.0.3.1
 Author: pingeb.org
 Author URI: http://pingeb.org
 License: 
@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with Pin
 //-----------------------------------------------------------------------------
 
 global $pingeb_db_version;
-$pingeb_db_version= "1.3";
+$pingeb_db_version= "1.4";
 
 //Installs Pingeborg
 //Author: Bruno Hautzenberger
@@ -34,6 +34,7 @@ function pingeb_db_install() {
    marker_id mediumint(9) NOT NULL,
    geofence_radius tinyint NOT NULL,
    page_id int NOT NULL,
+   custom_html_id int,
    UNIQUE KEY id (id)
    );";
    
@@ -66,12 +67,84 @@ function pingeb_db_install() {
    visit_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    UNIQUE KEY id (id)
    );";
+   
+   $table_name = $wpdb->prefix . "pingeb_custom_html";
+
+   $sql .=  "CREATE TABLE $table_name (
+   id mediumint(9) NOT NULL AUTO_INCREMENT,
+   name text NOT NULL,
+   html text NOT NULL,
+   UNIQUE KEY id (id)
+   );";
 
    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
    dbDelta($sql);
    
    pingeb_insert_initial_data();
  
+   add_option("pingeb_db_version", $pingeb_db_version);
+}
+
+//Installs Pingeborg
+//Author: Bruno Hautzenberger
+//Date: 10.2013
+function pingeb_update_db() {
+   global $wpdb;
+   global $pingeb_db_version;
+
+   $table_name = $wpdb->prefix . "pingeb_tag";
+      
+   $sql = "CREATE TABLE $table_name (
+   id mediumint(9) NOT NULL AUTO_INCREMENT,
+   marker_id mediumint(9) NOT NULL,
+   geofence_radius tinyint NOT NULL,
+   page_id int NOT NULL,
+   custom_html_id int,
+   UNIQUE KEY id (id)
+   );";
+   
+   $table_name = $wpdb->prefix . "pingeb_url";
+   
+   $sql .= "CREATE TABLE $table_name (
+   id mediumint(9) NOT NULL AUTO_INCREMENT,
+   tag_id mediumint(9) NOT NULL,
+   url text NOT NULL,
+   url_type_id tinyint NOT NULL,
+   UNIQUE KEY id (id)
+   );";
+
+   $table_name = $wpdb->prefix . "pingeb_url_type";
+
+   $sql .=  "CREATE TABLE $table_name (
+   id mediumint(9) NOT NULL AUTO_INCREMENT,
+   name tinytext NOT NULL,
+   description text NOT NULL,
+   UNIQUE KEY id (id)
+   );";
+
+   $table_name = $wpdb->prefix . "pingeb_statistik";
+
+   $sql .=  "CREATE TABLE $table_name (
+   id mediumint(9) NOT NULL AUTO_INCREMENT,
+   tag_id mediumint(9) NOT NULL,
+   url_type mediumint(9) NOT NULL,
+   visitor_os text NOT NULL,
+   visit_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   UNIQUE KEY id (id)
+   );";
+   
+   $table_name = $wpdb->prefix . "pingeb_custom_html";
+
+   $sql .=  "CREATE TABLE $table_name (
+   id mediumint(9) NOT NULL AUTO_INCREMENT,
+   name text NOT NULL,
+   html text NOT NULL,
+   UNIQUE KEY id (id)
+   );";
+
+   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+   dbDelta($sql);
+   
    add_option("pingeb_db_version", $pingeb_db_version);
 }
 
@@ -123,12 +196,17 @@ if(is_admin()){
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags.php');
 	require_once(dirname(__FILE__) . '/pingeb_admin_tags_callbacks.php');
 	
+	//Custom HTML
+	require_once(dirname(__FILE__) . '/pingeb_admin_custom_html.php');
+	require_once(dirname(__FILE__) . '/pingeb_admin_custom_html_callbacks.php');
+	
 	//Twitter Settings
 	require_once(dirname(__FILE__) . '/pingeb_admin_twitter.php');
 	
 	//Tag Maintenance
 	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance.php');
-	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php'); 
+	require_once(dirname(__FILE__) . '/pingeb_admin_tag_maintenance_callbacks.php');
+	
 	require_once(dirname(__FILE__) . '/pingeb_info.php');
 }
 
@@ -254,5 +332,8 @@ function pingeb_addUploadMimes($mimes) {
     return $mimes;
 }
 add_filter('upload_mimes', 'pingeb_addUploadMimes');
+
+//update db allways if needed
+pingeb_update_db();
 
 ?>

@@ -96,7 +96,7 @@ function pingeb_get_tags_callback() {
 	$i = 0;	
 
 	$sql = "select mm.markername as marker_name, mm.lat as lat, mm.lon as lng, IFNULL(pt.id, -1) as id, mm.id as marker_id, ";
-	$sql .= "IFNULL(pt.geofence_radius,20) as geofence_radius, IFNULL(pt.page_id,-1) as page_id, ml.name as layer_name, ml.id as layer_id ";
+	$sql .= "IFNULL(pt.geofence_radius,20) as geofence_radius, IFNULL(pt.page_id,-1) as page_id, ml.name as layer_name, ml.id as layer_id, IFNULL(pt.custom_html_id, -1) as html_block ";
 	$sql .= "from " . $wpdb->prefix . "leafletmapsmarker_markers mm ";
 	$sql .= "inner join " . $wpdb->prefix . "leafletmapsmarker_layers ml on mm.layer = ml.id ";
 	$sql .= "left outer join " . $wpdb->prefix . "pingeb_tag pt on mm.id = pt.marker_id ";
@@ -135,7 +135,8 @@ function pingeb_get_tags_callback() {
 		'page_id'=>$tag->page_id,
 		'urls'=>$arrUrl,
 		'layer_name'=>$tag->layer_name,
-		'layer_id'=>$tag->layer_id
+		'layer_id'=>$tag->layer_id,
+		'html_block_id'=>$tag->html_block
 		); 
 		$i++;
 	}
@@ -153,12 +154,14 @@ function pingeb_save_tag_callback() {
 
 	$geofence_radius = $_POST['geofence_radius'];
 	$page = $_POST['page_id'];
+	$html_block_id = $_POST['html_block_id'];
 	$id = $_POST['tag_id'];
 
 	$wpdb->update( 
 			$wpdb->prefix . "pingeb_tag", 
 			array( 
 				'geofence_radius' => $geofence_radius, 
+				'custom_html_id' => $html_block_id,
 				'page_id' => $page 
 			), 
 			array( 'id' => $id ),

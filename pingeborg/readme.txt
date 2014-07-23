@@ -6,7 +6,7 @@ Author URI:        http://pingeb.org
 Author:            Projekt Ingeborg
 Requires at least: 3.0
 Tested up to:      3.5beta2
-Stable tag:        2.0.2.1
+Stable tag:        2.0.3.1
 License:           GPLv3 or later
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -100,6 +100,9 @@ A: You do not have to. This makes the content accessible (almost) exclusively vi
 5. /assets/screenshot-5.png
 
 == Changelog ==
+2.0.3.1
+New Feature: Custom HTML blocks can be added to specific tags.
+
 2.0.2.1
 Fix: Several API Bugfixes.
 

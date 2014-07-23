@@ -340,7 +340,22 @@ function pingeb_save_meta_data($post_id) {
 
 add_filter('the_content', 'pingeb_show_meta');
 function pingeb_show_meta($content) {
-    global $pingeb_meta_box, $post;
+    global $pingeb_meta_box, $post, $wpdb; 
+    
+    //Custom html
+    if(isset($_GET['cb'])){
+        $sql = "select id, html from " . $wpdb->prefix . "pingeb_custom_html where id = " . $wpdb->escape($_GET['cb']);
+        
+        $html = "";
+        
+        $blocks = $wpdb->get_results($sql);
+        foreach ( $blocks as $block ) {
+                $html = $block->html;
+        }
+        
+        $content .= $html;
+    }
+    //
     
     if(get_post_meta($post->ID, 'pingeb_active', true) == "on"){
         
