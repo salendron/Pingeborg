@@ -412,6 +412,7 @@ function pingeb_batch_set_radius(i){
 		action: 'pingeb_save_tag',
 		geofence_radius: radius,
 		page_id: tags[i]['page_id'],
+		html_block_id:tags[i]['html_block_id'],
 		tag_id: tags[i]['id']
 	};
 
@@ -443,11 +444,13 @@ function pingeb_batch_set_page(i){
 	
 	var page = document.getElementById('pingeb_batch_tag_page').value;
 	
+	
 	//save tags
 	data = {
 		action: 'pingeb_save_tag',
 		geofence_radius: tags[i]['geofence_radius'],
 		page_id: page,
+		html_block_id:tags[i]['html_block_id'],
 		tag_id: tags[i]['id']
 	};
 
